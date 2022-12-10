@@ -2,7 +2,7 @@ import { Button, Checkbox, Col, Form, Input, Row } from "antd";
 import Link from "next/link";
 import AuthLayout from "../components/Layouts/AuthLayout";
 
-export default function Signup() {
+export default function Login() {
   return (
     <AuthLayout>
       <div
@@ -22,7 +22,7 @@ export default function Signup() {
               textAlign: "center",
             }}
           >
-            <h1>Signup to Notezia</h1>
+            <h1>Login to Notezia</h1>
             <p
               className="opacity05"
               style={{
@@ -46,18 +46,20 @@ export default function Signup() {
             size="large"
           >
             <Form.Item>
-              <Input placeholder="Name" />
-            </Form.Item>
-            <Form.Item>
               <Input placeholder="Email" />
             </Form.Item>
             <Form.Item>
               <Input.Password placeholder="Password" />
             </Form.Item>
             <Form.Item>
-              <Form.Item>
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
+              <Row justify="space-between" align="middle" gutter={[0, 15]}>
+                <Form.Item>
+                  <Checkbox>Remember me</Checkbox>
+                </Form.Item>
+                <h4>
+                  <Link href="/forgotpassword">Forgot password</Link>
+                </h4>
+              </Row>
             </Form.Item>
           </Form>
           <Button
@@ -67,7 +69,7 @@ export default function Signup() {
               width: "100%",
             }}
           >
-            Signup
+            Login
           </Button>
           <Col {...{ xs: 24, sm: 24, md: 24, lg: 24 }}>
             <Row
@@ -88,14 +90,14 @@ export default function Signup() {
                   marginRight: "var(--mpr-2)",
                 }}
               />
-              <p className="opacity05">Sign up with Google</p>
+              <p className="opacity05">Sign in with Google</p>
             </Row>
           </Col>
         </Row>
         <Row>
-          <p className="opacity05">Already have an account? &nbsp;</p>
+          <p className="opacity05">Dont have an account yet? &nbsp;</p>
           <h4>
-            <Link href="/login">Login</Link>
+            <Link href="/signup">Sign Up</Link>
           </h4>
         </Row>
       </div>
