@@ -46,20 +46,23 @@ export default function Signup() {
             size="large"
           >
             <Form.Item>
+              <Input placeholder="Name" />
+            </Form.Item>
+            <Form.Item>
               <Input placeholder="Email" />
             </Form.Item>
             <Form.Item>
               <Input.Password placeholder="Password" />
             </Form.Item>
             <Form.Item>
-              <Row justify="space-between" align="middle" gutter={[0, 15]}>
-                <Form.Item>
-                  <Checkbox>Remember me</Checkbox>
-                </Form.Item>
-                {/* <h4>
+              {/* <Row justify="space-between" align="middle" gutter={[0, 15]}> */}
+              <Form.Item>
+                <Checkbox>Remember me</Checkbox>
+              </Form.Item>
+              {/* <h4>
                   <Link href="/">Forgot password</Link>
                 </h4> */}
-              </Row>
+              {/* </Row> */}
             </Form.Item>
           </Form>
           <Button
