@@ -1,10 +1,13 @@
 import { Button, Col, Form, Input, message, Row } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import AuthLayout from "../components/Layouts/AuthLayout";
 import { useResetPasswordMutation } from "../Redux/Services/service";
+import { setIsAuth, setToken } from "../Redux/Slices/Auth/AuthSlice";
 
 export default function ResetPassword() {
+  const dispatch = useDispatch();
   const { query, route } = useRouter();
   const [userData, setUserData] = useState({
     password: "",
@@ -32,7 +35,10 @@ export default function ResetPassword() {
 
     if (response?.data) {
       const token = response.data.data.token;
-      route.push("/login");
+      localStorage.setItem("accessToken", token);
+      dispatch(setIsAuth(true));
+      dispatch(setToken(token));
+      route.push("/");
       return message.success(response.data.message);
     }
   };

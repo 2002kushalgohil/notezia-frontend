@@ -12,14 +12,18 @@ import {
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import AuthLayout from "../components/Layouts/AuthLayout";
 import validateEmail from "../GlobalFunctions/validateEmail";
 import {
   useForgotPasswordMutation,
   useLoginMutation,
 } from "../Redux/Services/service";
+import { setIsAuth, setToken } from "../Redux/Slices/Auth/AuthSlice";
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const route = useRouter();
   const [isModal, setIsModal] = useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState();
   const [userData, setUserData] = useState({
@@ -51,6 +55,10 @@ export default function Login() {
 
     if (response?.data) {
       const token = response.data.data.token;
+      localStorage.setItem("accessToken", token);
+      dispatch(setIsAuth(true));
+      dispatch(setToken(token));
+      route.push("/");
       return message.success(response.data.message);
     }
   };

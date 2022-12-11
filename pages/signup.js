@@ -1,11 +1,16 @@
 import { Button, Checkbox, Col, Form, Input, message, Row } from "antd";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import AuthLayout from "../components/Layouts/AuthLayout";
 import validateEmail from "../GlobalFunctions/validateEmail";
 import { useSignUpMutation } from "../Redux/Services/service";
+import { setIsAuth, setToken } from "../Redux/Slices/Auth/AuthSlice";
 
 export default function Signup() {
+  const dispatch = useDispatch();
+  const route = useRouter();
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -36,6 +41,10 @@ export default function Signup() {
 
     if (response?.data) {
       const token = response.data.data.token;
+      localStorage.setItem("accessToken", token);
+      dispatch(setIsAuth(true));
+      dispatch(setToken(token));
+      route.push("/");
       return message.success(response.data.message);
     }
   };

@@ -1,9 +1,16 @@
-import { DatePicker } from "antd";
+import ProtectedRoute from "../components/Auth/ProtectedRoute";
 
 export default function Home() {
   return (
-    <div>
-      <DatePicker />
-    </div>
+    <ProtectedRoute>
+      <button
+        onClick={() => {
+          localStorage.removeItem("accessToken");
+          window.location.href = "/login";
+        }}
+      >
+        Log out
+      </button>
+    </ProtectedRoute>
   );
 }
