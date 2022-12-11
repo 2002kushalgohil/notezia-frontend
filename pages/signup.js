@@ -1,8 +1,45 @@
-import { Button, Checkbox, Col, Form, Input, Row } from "antd";
+import { Button, Checkbox, Col, Form, Input, message, Row } from "antd";
 import Link from "next/link";
+import { useState } from "react";
 import AuthLayout from "../components/Layouts/AuthLayout";
+import validateEmail from "../GlobalFunctions/validateEmail";
+import { useSignUpMutation } from "../Redux/Services/service";
 
 export default function Signup() {
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    Password: "",
+    isRemember: false,
+  });
+
+  const onChangeHandler = (e) => {
+    if (e.target.name == "isRemember") {
+      setUserData({ ...userData, [e.target.name]: e.target.checked });
+      return;
+    }
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
+  const [_signup, { isLoading }] = useSignUpMutation();
+  const onSignupHandler = async () => {
+    if (!(userData.email && userData.password && userData.name)) {
+      return message.warning("Please fill all the details");
+    }
+    if (!validateEmail(userData.email)) {
+      return message.warning("Please enter an appropriate email address");
+    }
+    const response = await _signup(userData);
+    if (response?.error) {
+      return message.error(response.error.data.message);
+    }
+
+    if (response?.data) {
+      const token = response.data.data.token;
+      return message.success(response.data.message);
+    }
+  };
+
   return (
     <AuthLayout>
       <div
@@ -46,26 +83,49 @@ export default function Signup() {
             size="large"
           >
             <Form.Item>
-              <Input placeholder="Name" />
+              <Input
+                placeholder="Name"
+                name="name"
+                value={userData.name}
+                onChange={onChangeHandler}
+              />
             </Form.Item>
             <Form.Item>
-              <Input placeholder="Email" />
+              <Input
+                placeholder="Email"
+                name="email"
+                value={userData.email}
+                onChange={onChangeHandler}
+              />
             </Form.Item>
             <Form.Item>
-              <Input.Password placeholder="Password" />
+              <Input.Password
+                placeholder="Password"
+                name="password"
+                value={userData.password}
+                onChange={onChangeHandler}
+              />
             </Form.Item>
             <Form.Item>
               <Form.Item>
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox
+                  name="isRemember"
+                  checked={userData.isRemember}
+                  onChange={onChangeHandler}
+                >
+                  Remember me
+                </Checkbox>
               </Form.Item>
             </Form.Item>
           </Form>
           <Button
             size="large"
             type="primary"
+            loading={isLoading}
             style={{
               width: "100%",
             }}
+            onClick={onSignupHandler}
           >
             Signup
           </Button>

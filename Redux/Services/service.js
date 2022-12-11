@@ -4,7 +4,6 @@ export const noteziaApi = createApi({
   reducerPath: "noteziaApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://notezia-backend.kushalgohil.com/.netlify/functions/api",
-    credentials: "include",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
@@ -16,7 +15,7 @@ export const noteziaApi = createApi({
   endpoints: (builder) => ({
     signUp: builder.mutation({
       query: (data) => ({
-        url: "/user/Register",
+        url: "/user/signup",
         method: "POST",
         body: data,
       }),
@@ -24,12 +23,33 @@ export const noteziaApi = createApi({
 
     login: builder.mutation({
       query: (data) => ({
-        url: "/user/Login",
+        url: "/user/login",
         method: "POST",
         body: data,
+      }),
+    }),
+
+    forgotPassword: builder.mutation({
+      query: (data) => ({
+        url: "/user/forgotpassword",
+        method: "POST",
+        body: data,
+      }),
+    }),
+
+    resetPassword: builder.mutation({
+      query: ({ userData, queryToken }) => ({
+        url: `/user/resetpassword/${queryToken}`,
+        method: "POST",
+        body: userData,
       }),
     }),
   }),
 });
 
-export const { useSignUpMutation, useLoginMutation } = noteziaApi;
+export const {
+  useSignUpMutation,
+  useLoginMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+} = noteziaApi;
