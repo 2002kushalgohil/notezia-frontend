@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 import Sidebar from "../Auth/Sidebar";
 import styles from "../../styles/Auth.module.css";
-export default function AuthLayout({ children }) {
+export default function CardLayout({ children }) {
   return (
     <div className={styles.parent}>
       <img

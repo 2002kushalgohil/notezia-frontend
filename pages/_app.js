@@ -1,5 +1,4 @@
 import { ConfigProvider } from "antd";
-import { useEffect } from "react";
 import { Provider } from "react-redux";
 import store from "../Redux/store";
 import "../styles/globals.css";

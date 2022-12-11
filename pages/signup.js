@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import AuthLayout from "../components/Layouts/AuthLayout";
+import CardLayout from "../components/Layouts/CardLayout";
 import validateEmail from "../GlobalFunctions/validateEmail";
 import { useSignUpMutation } from "../Redux/Services/service";
 import { setIsAuth, setToken } from "../Redux/Slices/Auth/AuthSlice";
@@ -50,7 +50,7 @@ export default function Signup() {
   };
 
   return (
-    <AuthLayout>
+    <CardLayout>
       <div
         style={{
           height: "100%",
@@ -168,6 +168,6 @@ export default function Signup() {
           </h4>
         </Row>
       </div>
-    </AuthLayout>
+    </CardLayout>
   );
 }

@@ -13,7 +13,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import AuthLayout from "../components/Layouts/AuthLayout";
+import CardLayout from "../components/Layouts/CardLayout";
 import validateEmail from "../GlobalFunctions/validateEmail";
 import {
   useForgotPasswordMutation,
@@ -85,7 +85,7 @@ export default function Login() {
 
   return (
     <>
-      <AuthLayout>
+      <CardLayout>
         <div
           style={{
             height: "100%",
@@ -204,7 +204,7 @@ export default function Login() {
             </h4>
           </Row>
         </div>
-      </AuthLayout>
+      </CardLayout>
       <Modal
         title="Forgot password"
         centered

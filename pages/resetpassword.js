@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, message, Row } from "antd";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import AuthLayout from "../components/Layouts/AuthLayout";
+import CardLayout from "../components/Layouts/CardLayout";
 import { useResetPasswordMutation } from "../Redux/Services/service";
 import { setIsAuth, setToken } from "../Redux/Slices/Auth/AuthSlice";
 
@@ -44,7 +44,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <AuthLayout>
+    <CardLayout>
       <div
         style={{
           height: "100%",
@@ -116,6 +116,6 @@ export default function ResetPassword() {
         </Row>
         <Row></Row>
       </div>
-    </AuthLayout>
+    </CardLayout>
   );
 }

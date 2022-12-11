@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Jwt from "jsonwebtoken";
 import { setIsAuth, setToken } from "../../Redux/Slices/Auth/AuthSlice";
 import { useRouter } from "next/router";
+import NavBar from "../NavBar";
 
 export default function ProtectedRoute({ children }) {
   const dispatch = useDispatch();
@@ -24,5 +25,20 @@ export default function ProtectedRoute({ children }) {
     }
   }, []);
 
-  return <>{isAuth ? <>{children}</> : <></>}</>;
+  return (
+    <>
+      {isAuth ? (
+        <>
+          <section className="layoutParent">
+            <div className="layoutMain">
+              <NavBar />
+              {children}
+            </div>
+          </section>
+        </>
+      ) : (
+        <></>
+      )}
+    </>
+  );
 }
