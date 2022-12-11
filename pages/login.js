@@ -1,8 +1,14 @@
 import { Button, Checkbox, Col, Form, Input, Row } from "antd";
 import Link from "next/link";
 import AuthLayout from "../components/Layouts/AuthLayout";
+import { useLoginMutation } from "../Redux/Services/service";
 
 export default function Login() {
+  const [_login] = useLoginMutation();
+  const onLoginHandler = async () => {
+    const response = await _login();
+    console.log(response);
+  };
   return (
     <AuthLayout>
       <div
@@ -68,6 +74,7 @@ export default function Login() {
             style={{
               width: "100%",
             }}
+            onClick={onLoginHandler}
           >
             Login
           </Button>

@@ -1,21 +1,25 @@
 import { ConfigProvider } from "antd";
+import { Provider } from "react-redux";
+import store from "../Redux/store";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ConfigProvider
-      theme={{
-        components: {
-          Input: {
-            borderRadiusLG: "7.5px",
-            lineHeightLG: "35px",
+    <Provider store={store}>
+      <ConfigProvider
+        theme={{
+          components: {
+            Input: {
+              borderRadiusLG: "7.5px",
+              lineHeightLG: "35px",
+            },
           },
-        },
-        colorPrimary: "#275bc3",
-      }}
-    >
-      <Component {...pageProps} />
-    </ConfigProvider>
+          colorPrimary: "#275bc3",
+        }}
+      >
+        <Component {...pageProps} />
+      </ConfigProvider>
+    </Provider>
   );
 }
 
