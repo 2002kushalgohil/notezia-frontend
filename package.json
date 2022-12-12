@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
+    "@react-oauth/google": "^0.5.1",
     "@reduxjs/toolkit": "^1.9.1",
     "antd": "^5.0.5",
     "jsonwebtoken": "^8.5.1",

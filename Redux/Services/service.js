@@ -4,6 +4,7 @@ export const noteziaApi = createApi({
   reducerPath: "noteziaApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "https://notezia-backend.kushalgohil.com/.netlify/functions/api",
+    // baseUrl: "http://localhost:9000/.netlify/functions/api",
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
@@ -29,6 +30,10 @@ export const noteziaApi = createApi({
       }),
     }),
 
+    googleAuth: builder.query({
+      query: (accessToken) => `/user/googleAuth?googleAuthToken=${accessToken}`,
+    }),
+
     forgotPassword: builder.mutation({
       query: (data) => ({
         url: "/user/forgotpassword",
@@ -50,6 +55,7 @@ export const noteziaApi = createApi({
 export const {
   useSignUpMutation,
   useLoginMutation,
+  useGoogleAuthQuery,
   useForgotPasswordMutation,
   useResetPasswordMutation,
 } = noteziaApi;

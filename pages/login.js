@@ -11,20 +11,24 @@ import {
 } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CardLayout from "../components/Layouts/CardLayout";
 import validateEmail from "../GlobalFunctions/validateEmail";
 import {
   useForgotPasswordMutation,
+  useGoogleAuthQuery,
   useLoginMutation,
 } from "../Redux/Services/service";
 import { setIsAuth, setToken } from "../Redux/Slices/Auth/AuthSlice";
+import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 export default function Login() {
   const dispatch = useDispatch();
   const route = useRouter();
   const [isModal, setIsModal] = useState(false);
+  const [accessToken, setAccessToken] = useState("");
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState();
   const [userData, setUserData] = useState({
     email: "",
@@ -82,6 +86,43 @@ export default function Login() {
       return message.success(response.data.message);
     }
   };
+
+  // ---------------------- Social Login ------------------------
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (respose) => {
+      setAccessToken(respose.access_token);
+    },
+  });
+
+  const googleAuthHandler = () => {
+    if (googleAuthSuccess) {
+      const token = googleAuthData.data.token;
+      localStorage.setItem("accessToken", token);
+      dispatch(setIsAuth(true));
+      dispatch(setToken(token));
+      route.push("/");
+      return message.success(googleAuthData.message);
+    }
+    if (googleAuthError) {
+      return message.error("Oops! Something went wrong");
+    }
+  };
+
+  const {
+    data: googleAuthData,
+    isLoading: googleAuthLoading,
+    isError: googleAuthError,
+    isSuccess: googleAuthSuccess,
+  } = useGoogleAuthQuery(accessToken ? accessToken : skipToken);
+
+  useEffect(() => {
+    setAccessToken("");
+  }, []);
+
+  useEffect(() => {
+    googleAuthHandler();
+  }, [googleAuthError, googleAuthSuccess]);
 
   return (
     <>
@@ -164,7 +205,7 @@ export default function Login() {
               </Form.Item>
             </Form>
             <Button
-              loading={isLoading}
+              loading={isLoading || googleAuthLoading}
               size="large"
               type="primary"
               style={{
@@ -185,6 +226,7 @@ export default function Login() {
                 }}
                 align="middle"
                 justify="center"
+                onClick={googleLogin}
               >
                 <img
                   src="/google.svg"
