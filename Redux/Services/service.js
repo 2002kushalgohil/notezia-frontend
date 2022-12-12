@@ -49,6 +49,26 @@ export const noteziaApi = createApi({
         body: userData,
       }),
     }),
+
+    userProfile: builder.query({
+      query: () => "/user/",
+      transformResponse: (data) => {
+        if (!data?.data?.photos) {
+          data = {
+            ...data,
+            data: {
+              ...data.data,
+              photos: {
+                id: "NA",
+                secure_url:
+                  "https://res.cloudinary.com/dryviglqd/image/upload/v1670610093/users/avataaars_odsvbg.png",
+              },
+            },
+          };
+        }
+        return data;
+      },
+    }),
   }),
 });
 
@@ -58,4 +78,5 @@ export const {
   useGoogleAuthQuery,
   useForgotPasswordMutation,
   useResetPasswordMutation,
+  useUserProfileQuery,
 } = noteziaApi;

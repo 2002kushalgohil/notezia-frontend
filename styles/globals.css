@@ -70,11 +70,5 @@ h4 {
 
 .layoutMain {
   width: 100%;
-  max-width: 2000px;
-}
-
-@media (max-width: 575px) {
-  .layoutMain {
-    /* width: 95%; */
-  }
+  /* max-width: 1400px; */
 }
