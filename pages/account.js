@@ -1,16 +1,31 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { Button, Col, Form, Image, Input, Row, Space, Upload } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Image,
+  Input,
+  message,
+  Row,
+  Space,
+  Upload,
+} from "antd";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "../components/Auth/ProtectedRoute";
 import CardLayout from "../components/Layouts/CardLayout";
-import { useUserProfileQuery } from "../Redux/Services/service";
+import uploadImage from "../GlobalFunctions/uploadImage";
+import {
+  useUserProfileQuery,
+  useUpdateUserProfileMutation,
+} from "../Redux/Services/service";
 import { setUserProfile } from "../Redux/Slices/User/userSlice";
 
 const { Dragger } = Upload;
 export default function Account() {
   const userData = useSelector((state) => state.user.data);
+  const [uploadedPhoto, setUploadedPhoto] = useState("");
   const route = useRouter();
   const dispatch = useDispatch();
 
@@ -21,6 +36,32 @@ export default function Account() {
       dispatch(setUserProfile(data.data));
     }
   }, [isSuccess, isError]);
+
+  const onValueChange = (e) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    const sentData = { ...userData, [name]: value };
+
+    dispatch(setUserProfile(sentData));
+  };
+
+  const [_updateProfile, { isLoading: updateProfileLoading }] =
+    useUpdateUserProfileMutation();
+
+  const onSubmitHandler = async () => {
+    const sentData = { ...userData };
+    if (uploadedPhoto) {
+      console.log(uploadedPhoto);
+      return;
+    }
+
+    const result = await _updateProfile(sentData);
+    if (result?.data?.data) {
+      return message.success(result.data.message);
+    }
+    return message.error(result.error.data.message);
+  };
 
   return (
     <ProtectedRoute>
@@ -45,19 +86,18 @@ export default function Account() {
                 <Col>
                   <img
                     style={{
-                      cursor: "pointer",
                       width: 100,
                       height: 100,
                       objectFit: "cover",
                       borderRadius: 50,
                       border: "1px solid var(--border-color)",
                     }}
-                    src={userData.photos.secure_url}
+                    src={data?.data?.photos?.secure_url}
                   />
                 </Col>
                 <Col>
-                  <h1>{userData.name}</h1>
-                  <p className="opacity05">{userData.email}</p>
+                  <h1>{data?.data?.name}</h1>
+                  <p className="opacity05">{userData?.email}</p>
                 </Col>
               </Row>
             </Col>
@@ -70,11 +110,24 @@ export default function Account() {
             <Col span={24}>
               <Form size="large" layout="vertical">
                 <Form.Item label="Name">
-                  <Input placeholder="Name" name="name" />
+                  <Input
+                    placeholder="Name"
+                    value={userData.name}
+                    name="name"
+                    onChange={onValueChange}
+                  />
                 </Form.Item>
               </Form>
               <Form.Item label="Profile photo">
-                <Dragger>
+                <Dragger
+                  onChange={(e) => {
+                    setUploadedPhoto(uploadImage(e));
+                  }}
+                  style={{
+                    padding: "0px var(--mpr-3)",
+                  }}
+                  multiple={false}
+                >
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined />
                   </p>
@@ -82,8 +135,8 @@ export default function Account() {
                     Click or drag file to this area to upload
                   </p>
                   <p className="ant-upload-hint">
-                    Your photo will be compressed and stored so you can upload
-                    photos of less quality
+                    maximum mage size should be 3MB and file format should be
+                    jpeg, png, jpg
                   </p>
                 </Dragger>
               </Form.Item>
@@ -105,7 +158,12 @@ export default function Account() {
                   >
                     Cancel
                   </Button>
-                  <Button size="large" type="primary">
+                  <Button
+                    size="large"
+                    onClick={onSubmitHandler}
+                    type="primary"
+                    loading={isLoading || updateProfileLoading}
+                  >
                     Save
                   </Button>
                 </Space>

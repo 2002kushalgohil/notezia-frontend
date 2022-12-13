@@ -13,6 +13,7 @@ export const noteziaApi = createApi({
       return headers;
     },
   }),
+  tagTypes: ["userProfile"],
   endpoints: (builder) => ({
     signUp: builder.mutation({
       query: (data) => ({
@@ -52,22 +53,16 @@ export const noteziaApi = createApi({
 
     userProfile: builder.query({
       query: () => "/user/",
-      transformResponse: (data) => {
-        if (!data?.data?.photos) {
-          data = {
-            ...data,
-            data: {
-              ...data.data,
-              photos: {
-                id: "NA",
-                secure_url:
-                  "https://res.cloudinary.com/dryviglqd/image/upload/v1670610093/users/avataaars_odsvbg.png",
-              },
-            },
-          };
-        }
-        return data;
-      },
+      providesTags: ["userProfile"],
+    }),
+
+    updateUserProfile: builder.mutation({
+      query: (data) => ({
+        url: "/user/",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["userProfile"],
     }),
   }),
 });
@@ -79,4 +74,5 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useUserProfileQuery,
+  useUpdateUserProfileMutation,
 } = noteziaApi;
