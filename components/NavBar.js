@@ -8,7 +8,7 @@ import {
 import { CaretDownOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { useUserProfileQuery } from "../Redux/Services/service";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserProfile } from "../Redux/Slices/User/userSlice";
 import Link from "next/link";
@@ -31,11 +31,11 @@ export default function NavBar() {
               borderRadius: 50,
               marginRight: "var(--mpr-2)",
             }}
-            src={userData.photos.secure_url}
+            src={userData?.photos?.secure_url}
           />
           <div>
-            <h4>{userData.name}</h4>
-            <p className="opacity05">{userData.email}</p>
+            <h4>{userData?.name}</h4>
+            <p className="opacity05">{userData?.email}</p>
           </div>
         </Row>
       ),
@@ -78,7 +78,7 @@ export default function NavBar() {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setUserProfile(data.data));
+      dispatch(setUserProfile(data?.data));
     }
   }, [isSuccess, isError]);
 
@@ -160,7 +160,7 @@ export default function NavBar() {
                     cursor: "pointer",
                   }}
                 >
-                  {userData.name}
+                  {userData?.name}
                   <CaretDownOutlined
                     style={{
                       opacity: "0.5",
@@ -188,7 +188,7 @@ export default function NavBar() {
                     borderRadius: 50,
                     border: "1px solid var(--border-color)",
                   }}
-                  src={userData.photos.secure_url}
+                  src={userData?.photos?.secure_url}
                 />
               </Dropdown>
             </Col>

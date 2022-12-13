@@ -25,6 +25,7 @@ import { setUserProfile } from "../Redux/Slices/User/userSlice";
 const { Dragger } = Upload;
 export default function Account() {
   const userData = useSelector((state) => state.user.data);
+  const [isImageLoading, setIsImageLoading] = useState(false);
   const [uploadedPhoto, setUploadedPhoto] = useState("");
   const route = useRouter();
   const dispatch = useDispatch();
@@ -52,8 +53,31 @@ export default function Account() {
   const onSubmitHandler = async () => {
     const sentData = { ...userData };
     if (uploadedPhoto) {
-      console.log(uploadedPhoto);
-      return;
+      setIsImageLoading(true);
+
+      // ------------- Uploading Image -------------
+      let formData = new FormData();
+      formData.append("file", uploadedPhoto.originFileObj);
+      formData.append("upload_preset", "notezia");
+      formData.append("folder", "users");
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dryviglqd/image/upload",
+        {
+          method: "post",
+          body: formData,
+        }
+      );
+      const responseData = await response.json();
+      if (responseData?.secure_url) {
+        sentData = {
+          ...sentData,
+          photos: {
+            id: responseData.public_id,
+            secure_url: responseData.secure_url,
+          },
+        };
+      }
+      setIsImageLoading(false);
     }
 
     const result = await _updateProfile(sentData);
@@ -162,7 +186,9 @@ export default function Account() {
                     size="large"
                     onClick={onSubmitHandler}
                     type="primary"
-                    loading={isLoading || updateProfileLoading}
+                    loading={
+                      isLoading || updateProfileLoading || isImageLoading
+                    }
                   >
                     Save
                   </Button>
