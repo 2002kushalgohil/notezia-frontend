@@ -106,10 +106,12 @@ export default function NavBar() {
       style={{
         borderBottom: "1px solid var(--border-color)",
         padding: "var(--mpr-2) var(--mpr-1)",
-        position: "sticky",
+        position: "fixed",
+        width: "100%",
         zIndex: 1000,
         top: 0,
-        backgroundColor: "white",
+        // backgroundColor: "white",
+        backdropFilter: "blur(10px)",
       }}
       justify="center"
       align="middle"

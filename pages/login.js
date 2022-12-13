@@ -166,8 +166,9 @@ export default function Login() {
                 width: "100%",
               }}
               size="large"
+              layout="vertical"
             >
-              <Form.Item>
+              <Form.Item label="Email">
                 <Input
                   placeholder="Email"
                   name="email"
@@ -175,7 +176,7 @@ export default function Login() {
                   onChange={onChangeHandler}
                 />
               </Form.Item>
-              <Form.Item>
+              <Form.Item label="Password">
                 <Input.Password
                   placeholder="Password"
                   name="password"
@@ -204,6 +205,8 @@ export default function Login() {
                 </Row>
               </Form.Item>
             </Form>
+          </Row>
+          <Row>
             <Button
               loading={isLoading || googleAuthLoading}
               size="large"
@@ -238,12 +241,19 @@ export default function Login() {
                 <p className="opacity05">Sign in with Google</p>
               </Row>
             </Col>
-          </Row>
-          <Row>
-            <p className="opacity05">Dont have an account yet? &nbsp;</p>
-            <h4>
-              <Link href="/signup">Sign Up</Link>
-            </h4>
+            <Row
+              justify="center"
+              align="middle"
+              style={{
+                width: "100%",
+                marginTop: "var(--mpr-1)",
+              }}
+            >
+              <p className="opacity05">Dont have an account yet? &nbsp;</p>
+              <h4>
+                <Link href="/signup">Sign Up</Link>
+              </h4>
+            </Row>
           </Row>
         </div>
       </CardLayout>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Jwt from "jsonwebtoken";
 import { setIsAuth, setToken } from "../../Redux/Slices/Auth/AuthSlice";
@@ -9,6 +9,7 @@ export default function ProtectedRoute({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const [isNavVisible, setIsNavVisible] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -24,14 +25,14 @@ export default function ProtectedRoute({ children }) {
       dispatch(setToken(""));
     }
   }, []);
-
+  console.log(router.asPath == "/account");
   return (
     <>
       {isAuth ? (
         <>
           <section className="layoutParent">
             <div className="layoutMain">
-              <NavBar />
+              {!(router.asPath == "/account") && <NavBar />}
               {children}
             </div>
           </section>

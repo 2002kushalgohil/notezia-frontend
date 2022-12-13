@@ -132,8 +132,9 @@ export default function Signup() {
               width: "100%",
             }}
             size="large"
+            layout="vertical"
           >
-            <Form.Item>
+            <Form.Item label="Name">
               <Input
                 placeholder="Name"
                 name="name"
@@ -141,7 +142,7 @@ export default function Signup() {
                 onChange={onChangeHandler}
               />
             </Form.Item>
-            <Form.Item>
+            <Form.Item label="Email">
               <Input
                 placeholder="Email"
                 name="email"
@@ -149,7 +150,7 @@ export default function Signup() {
                 onChange={onChangeHandler}
               />
             </Form.Item>
-            <Form.Item>
+            <Form.Item label="Password">
               <Input.Password
                 placeholder="Password"
                 name="password"
@@ -169,6 +170,8 @@ export default function Signup() {
               </Form.Item>
             </Form.Item>
           </Form>
+        </Row>
+        <Row>
           <Button
             size="large"
             type="primary"
@@ -203,12 +206,19 @@ export default function Signup() {
               <p className="opacity05">Sign up with Google</p>
             </Row>
           </Col>
-        </Row>
-        <Row>
-          <p className="opacity05">Already have an account? &nbsp;</p>
-          <h4>
-            <Link href="/login">Login</Link>
-          </h4>
+          <Row
+            justify="center"
+            align="middle"
+            style={{
+              width: "100%",
+              marginTop: "var(--mpr-1)",
+            }}
+          >
+            <p className="opacity05">Already have an account? &nbsp;</p>
+            <h4>
+              <Link href="/login">Login</Link>
+            </h4>
+          </Row>
         </Row>
       </div>
     </CardLayout>

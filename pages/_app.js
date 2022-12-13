@@ -15,6 +15,9 @@ function MyApp({ Component, pageProps }) {
                 borderRadiusLG: "7.5px",
                 lineHeightLG: "35px",
               },
+              Form: {
+                marginLG: "10px",
+              },
             },
             colorPrimary: "#275bc3",
           }}
