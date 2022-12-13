@@ -57,12 +57,26 @@ export default function Account() {
     if (uploadedPhoto) {
       setIsImageLoading(true);
 
-      if (sentData.photos.id != "NA") {
-        await cloudinary.v2.uploader
-          .destroy(sentData.photos.id, function (error, result) {})
-          .then()
-          .catch();
-      }
+      // if (sentData.photos.id != "NA") {
+      // let formData = new FormData();
+      // formData.append("timestamp", "");
+      // formData.append("public_id", sentData.photos.id);
+      // formData.append("signature", "");
+      // formData.append("api_key", process.env.NEXT_PUBLIC_API_KEY);
+      // try {
+      //   const response = await fetch(
+      //     `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/destroy`,
+      //     {
+      //       method: "post",
+      //       body: formData,
+      //     }
+      //   );
+      // } catch (error) {}
+      // await cloudinary.v2.uploader
+      //   .destroy(sentData.photos.id, function (error, result) {})
+      //   .then()
+      //   .catch();
+      // }
 
       let formData = new FormData();
       formData.append("file", uploadedPhoto.originFileObj);
