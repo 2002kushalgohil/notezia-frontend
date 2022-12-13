@@ -5,11 +5,11 @@ import "../styles/globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import cloudinary from "cloudinary/lib/cloudinary";
 
-// cloudinary.config({
-//   cloud_name: process.env.NEXT_PUBLIC_CLOUD_NAME,
-//   api_key: process.env.NEXT_PUBLIC_API_KEY,
-//   api_secret: process.env.NEXT_PUBLIC_API_SECRET,
-// });
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_API_KEY,
+  api_secret: process.env.NEXT_PUBLIC_API_SECRET,
+});
 
 function MyApp({ Component, pageProps }) {
   return (
