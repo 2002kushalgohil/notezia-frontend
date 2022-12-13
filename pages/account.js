@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProtectedRoute from "../components/Auth/ProtectedRoute";
 import CardLayout from "../components/Layouts/CardLayout";
+import cloudinary from "cloudinary/lib/cloudinary";
+
 import uploadImage from "../GlobalFunctions/uploadImage";
 import {
   useUserProfileQuery,
@@ -36,7 +38,7 @@ export default function Account() {
     if (isSuccess) {
       dispatch(setUserProfile(data.data));
     }
-  }, [isSuccess, isError]);
+  }, [isSuccess, isError, data]);
 
   const onValueChange = (e) => {
     const value = e.target.value;
@@ -55,27 +57,38 @@ export default function Account() {
     if (uploadedPhoto) {
       setIsImageLoading(true);
 
-      // ------------- Uploading Image -------------
+      if (sentData.photos.id != "NA") {
+        await cloudinary.v2.uploader
+          .destroy(sentData.photos.id, function (error, result) {})
+          .then()
+          .catch();
+      }
+
       let formData = new FormData();
       formData.append("file", uploadedPhoto.originFileObj);
-      formData.append("upload_preset", "notezia");
+      formData.append("upload_preset", process.env.NEXT_PUBLIC_PRESET_NAME);
+      formData.append("cloud_name", process.env.NEXT_PUBLIC_CLOUD_NAME);
       formData.append("folder", "users");
-      const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dryviglqd/image/upload",
-        {
-          method: "post",
-          body: formData,
+      try {
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
+          {
+            method: "post",
+            body: formData,
+          }
+        );
+        const responseData = await response.json();
+        if (responseData?.secure_url) {
+          sentData = {
+            ...sentData,
+            photos: {
+              id: responseData.public_id,
+              secure_url: responseData.secure_url,
+            },
+          };
         }
-      );
-      const responseData = await response.json();
-      if (responseData?.secure_url) {
-        sentData = {
-          ...sentData,
-          photos: {
-            id: responseData.public_id,
-            secure_url: responseData.secure_url,
-          },
-        };
+      } catch (error) {
+        message.error("Opps! Something went wrong");
       }
       setIsImageLoading(false);
     }
