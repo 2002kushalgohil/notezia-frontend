@@ -73,6 +73,9 @@ export default function Login() {
   const [_forgotPassword, { isLoading: forgotPasswordLoading }] =
     useForgotPasswordMutation();
   const onForgetPassHandler = async () => {
+    if (!forgotPasswordEmail) {
+      return message.warning("Please enter an a email address");
+    }
     if (!validateEmail(forgotPasswordEmail)) {
       return message.warning("Please enter an appropriate email address");
     }

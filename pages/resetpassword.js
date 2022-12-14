@@ -8,7 +8,8 @@ import { setIsAuth, setToken } from "../Redux/Slices/Auth/AuthSlice";
 
 export default function ResetPassword() {
   const dispatch = useDispatch();
-  const { query, route } = useRouter();
+  const router = useRouter();
+  const { query } = useRouter();
   const [userData, setUserData] = useState({
     password: "",
     confirmpassword: "",
@@ -30,17 +31,15 @@ export default function ResetPassword() {
     }
     const queryToken = query.token;
     const response = await _resetPassword({ userData, queryToken });
-
     if (response?.error) {
       return message.error(response.error.data.message);
     }
-
     if (response?.data) {
       const token = response.data.data.token;
       localStorage.setItem("accessToken", token);
       dispatch(setIsAuth(true));
       dispatch(setToken(token));
-      route.push("/");
+      router.push("/");
       return message.success(response.data.message);
     }
   };
