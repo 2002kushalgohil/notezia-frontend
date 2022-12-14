@@ -110,7 +110,6 @@ export default function NavBar() {
         width: "100%",
         zIndex: 1000,
         top: 0,
-        // backgroundColor: "white",
         backdropFilter: "blur(10px)",
       }}
       justify="center"

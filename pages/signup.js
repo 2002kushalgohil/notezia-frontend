@@ -10,7 +10,7 @@ import {
   useGoogleAuthQuery,
 } from "../Redux/Services/service";
 import { setIsAuth, setToken } from "../Redux/Slices/Auth/AuthSlice";
-import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 export default function Signup() {
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ export default function Signup() {
     isRemember: false,
   });
 
+  // -------------------- onChange Handler for input fields --------------------
   const onChangeHandler = (e) => {
     if (e.target.name == "isRemember") {
       setUserData({ ...userData, [e.target.name]: e.target.checked });
@@ -31,6 +32,7 @@ export default function Signup() {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
+  // -------------------- Signup Handler --------------------
   const [_signup, { isLoading }] = useSignUpMutation();
   const onSignupHandler = async () => {
     if (!(userData.email && userData.password && userData.name)) {
@@ -39,6 +41,7 @@ export default function Signup() {
     if (!validateEmail(userData.email)) {
       return message.warning("Please enter an appropriate email address");
     }
+
     const response = await _signup(userData);
     if (response?.error) {
       return message.error(response.error.data.message);
@@ -55,7 +58,6 @@ export default function Signup() {
   };
 
   // ---------------------- Social Login ------------------------
-
   const googleLogin = useGoogleLogin({
     onSuccess: async (respose) => {
       setAccessToken(respose.access_token);
@@ -82,10 +84,6 @@ export default function Signup() {
     isError: googleAuthError,
     isSuccess: googleAuthSuccess,
   } = useGoogleAuthQuery(accessToken ? accessToken : skipToken);
-
-  useEffect(() => {
-    setAccessToken("");
-  }, []);
 
   useEffect(() => {
     googleAuthHandler();

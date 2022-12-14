@@ -1,4 +1,4 @@
-import { Carousel, Col, Row } from "antd";
+import { Carousel } from "antd";
 import styles from "../../styles/Auth.module.css";
 export default function Sidebar() {
   return (

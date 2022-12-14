@@ -14,10 +14,12 @@ export default function ResetPassword() {
     confirmpassword: "",
   });
 
+  // -------------------- onChange Handler for input fields --------------------
   const onChangeHandler = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
+  // -------------------- Reset password Handler --------------------
   const [_resetPassword, { isLoading }] = useResetPasswordMutation();
   const onResetPasswordHandler = async () => {
     if (!(userData.password && userData.confirmpassword)) {
@@ -84,8 +86,9 @@ export default function ResetPassword() {
               width: "100%",
             }}
             size="large"
+            layout="vertical"
           >
-            <Form.Item>
+            <Form.Item label="Password">
               <Input.Password
                 placeholder="Password"
                 name="password"
@@ -93,7 +96,7 @@ export default function ResetPassword() {
                 onChange={onChangeHandler}
               />
             </Form.Item>
-            <Form.Item>
+            <Form.Item label="Confirm Password">
               <Input.Password
                 placeholder="Confirm Password"
                 name="confirmpassword"
@@ -102,6 +105,12 @@ export default function ResetPassword() {
               />
             </Form.Item>
           </Form>
+        </Row>
+        <Row
+          style={{
+            width: "100%",
+          }}
+        >
           <Button
             loading={isLoading}
             size="large"
@@ -114,7 +123,6 @@ export default function ResetPassword() {
             Reset Password
           </Button>
         </Row>
-        <Row></Row>
       </div>
     </CardLayout>
   );

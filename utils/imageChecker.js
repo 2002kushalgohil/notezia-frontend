@@ -1,6 +1,7 @@
 import { message } from "antd";
 
-export default function uploadImage(e) {
+// -------------------- Check Image type and file size --------------------
+export default function imageChecker(e) {
   let file = e.file;
   const fileType = file?.type.substring(file?.type.indexOf("/") + 1);
   const sizeofImg = file?.size;

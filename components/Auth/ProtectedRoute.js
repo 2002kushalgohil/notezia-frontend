@@ -9,9 +9,9 @@ export default function ProtectedRoute({ children }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const isAuth = useSelector((state) => state.auth.isAuth);
-  const [isNavVisible, setIsNavVisible] = useState(true);
 
-  useEffect(() => {
+  // -------------------- Is Authenticated checker --------------------
+  const isAuthenticated = () => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
       router.push("/login");
@@ -24,6 +24,10 @@ export default function ProtectedRoute({ children }) {
       dispatch(setIsAuth(false));
       dispatch(setToken(""));
     }
+  };
+
+  useEffect(() => {
+    isAuthenticated();
   }, []);
   return (
     <>

@@ -14,14 +14,14 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CardLayout from "../components/Layouts/CardLayout";
-import validateEmail from "../GlobalFunctions/validateEmail";
+import validateEmail from "../utils/validateEmail";
 import {
   useForgotPasswordMutation,
   useGoogleAuthQuery,
   useLoginMutation,
 } from "../Redux/Services/service";
 import { setIsAuth, setToken } from "../Redux/Slices/Auth/AuthSlice";
-import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 export default function Login() {
@@ -36,6 +36,7 @@ export default function Login() {
     isRemember: false,
   });
 
+  // -------------------- onChange Handler for input fields --------------------
   const onChangeHandler = (e) => {
     if (e.target.name == "isRemember") {
       setUserData({ ...userData, [e.target.name]: e.target.checked });
@@ -44,6 +45,7 @@ export default function Login() {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
+  // -------------------- Login Handler --------------------
   const [_login, { isLoading }] = useLoginMutation();
   const onLoginHandler = async () => {
     if (!(userData.email && userData.password)) {
@@ -67,6 +69,7 @@ export default function Login() {
     }
   };
 
+  // -------------------- Forgot password Handler --------------------
   const [_forgotPassword, { isLoading: forgotPasswordLoading }] =
     useForgotPasswordMutation();
   const onForgetPassHandler = async () => {
@@ -88,7 +91,6 @@ export default function Login() {
   };
 
   // ---------------------- Social Login ------------------------
-
   const googleLogin = useGoogleLogin({
     onSuccess: async (respose) => {
       setAccessToken(respose.access_token);
@@ -115,10 +117,6 @@ export default function Login() {
     isError: googleAuthError,
     isSuccess: googleAuthSuccess,
   } = useGoogleAuthQuery(accessToken ? accessToken : skipToken);
-
-  useEffect(() => {
-    setAccessToken("");
-  }, []);
 
   useEffect(() => {
     googleAuthHandler();

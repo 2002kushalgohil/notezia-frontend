@@ -18,12 +18,13 @@ import ProtectedRoute from "../components/Auth/ProtectedRoute";
 import CardLayout from "../components/Layouts/CardLayout";
 import cloudinary from "cloudinary/lib/cloudinary";
 
-import uploadImage from "../GlobalFunctions/uploadImage";
+import imageChecker from "../utils/imageChecker";
 import {
   useUserProfileQuery,
   useUpdateUserProfileMutation,
 } from "../Redux/Services/service";
 import { setUserProfile } from "../Redux/Slices/User/userSlice";
+import { deleteImage, uploadImage } from "../utils/cloudinaryUtil";
 
 const { Dragger } = Upload;
 export default function Account() {
@@ -33,66 +34,45 @@ export default function Account() {
   const route = useRouter();
   const dispatch = useDispatch();
 
+  // -------------------- Sending data to Redux slice after isSuccess --------------------
   const { data, isSuccess, isError, isLoading } = useUserProfileQuery();
-
   useEffect(() => {
     if (isSuccess) {
       dispatch(setUserProfile(data.data));
     }
   }, [isSuccess, isError, data]);
 
-  const onValueChange = (e) => {
+  // -------------------- onChange Handler for input fields --------------------
+  const onChangeHandler = (e) => {
     const value = e.target.value;
     const name = e.target.name;
-
     const sentData = { ...userData, [name]: value };
-
     dispatch(setUserProfile(sentData));
   };
 
+  // -------------------- Update profile Handler --------------------
   const [_updateProfile, { isLoading: updateProfileLoading }] =
     useUpdateUserProfileMutation();
-
   const onSubmitHandler = async () => {
     const sentData = { ...userData };
+
     if (uploadedPhoto) {
       setIsImageLoading(true);
-
+      // -------------------- Delete current profile picture --------------------
       if (sentData.photos.id != "NA") {
-        await cloudinary.v2.uploader
-          .destroy(sentData.photos.id, function (error, result) {
-            console.log(result);
-            console.log(error);
-          })
-          .then((res) => console.log(res))
-          .catch((err) => console.log(err));
+        await deleteImage(sentData.photos.id);
       }
 
-      let formData = new FormData();
-      formData.append("file", uploadedPhoto.originFileObj);
-      formData.append("upload_preset", process.env.NEXT_PUBLIC_PRESET_NAME);
-      formData.append("cloud_name", process.env.NEXT_PUBLIC_CLOUD_NAME);
-      formData.append("folder", "users");
-      try {
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/upload`,
-          {
-            method: "post",
-            body: formData,
-          }
-        );
-        const responseData = await response.json();
-        if (responseData?.secure_url) {
-          sentData = {
-            ...sentData,
-            photos: {
-              id: responseData.public_id,
-              secure_url: responseData.secure_url,
-            },
-          };
-        }
-      } catch (error) {
-        message.error("Opps! Something went wrong");
+      // -------------------- Upload new profile picture --------------------
+      const result = await uploadImage(uploadedPhoto.originFileObj);
+      if (result?.secure_url) {
+        sentData = {
+          ...sentData,
+          photos: {
+            id: result.public_id,
+            secure_url: result.secure_url,
+          },
+        };
       }
       setIsImageLoading(false);
     }
@@ -104,6 +84,7 @@ export default function Account() {
     return message.error(result.error.data.message);
   };
 
+  // -------------------- Skeleton --------------------
   const skeleton = () => {
     return (
       <>
@@ -213,13 +194,13 @@ export default function Account() {
                         placeholder="Name"
                         value={userData.name}
                         name="name"
-                        onChange={onValueChange}
+                        onChange={onChangeHandler}
                       />
                     </Form.Item>
                     <Form.Item label="Profile photo">
                       <Dragger
                         onChange={(e) => {
-                          setUploadedPhoto(uploadImage(e));
+                          setUploadedPhoto(imageChecker(e));
                         }}
                         style={{
                           padding: "0px var(--mpr-3)",
