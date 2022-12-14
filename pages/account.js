@@ -7,6 +7,7 @@ import {
   Input,
   message,
   Row,
+  Skeleton,
   Space,
   Upload,
 } from "antd";
@@ -58,20 +59,6 @@ export default function Account() {
       setIsImageLoading(true);
 
       if (sentData.photos.id != "NA") {
-        // let formData = new FormData();
-        // formData.append("timestamp", "");
-        // formData.append("public_id", sentData.photos.id);
-        // formData.append("signature", "");
-        // formData.append("api_key", process.env.NEXT_PUBLIC_API_KEY);
-        // try {
-        //   const response = await fetch(
-        //     `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/image/destroy`,
-        //     {
-        //       method: "post",
-        //       body: formData,
-        //     }
-        //   );
-        // } catch (error) {}
         await cloudinary.v2.uploader
           .destroy(sentData.photos.id, function (error, result) {
             console.log(result);
@@ -117,6 +104,60 @@ export default function Account() {
     return message.error(result.error.data.message);
   };
 
+  const skeleton = () => {
+    return (
+      <>
+        <Row
+          style={{
+            width: "100%",
+          }}
+        >
+          <Col span={24}>
+            <Row gutter={[15, 0]} justify="start" align="middle">
+              <Col>
+                <Skeleton.Avatar
+                  size="large"
+                  style={{
+                    padding: "50px",
+                  }}
+                  active
+                />
+              </Col>
+              <Col>
+                <Skeleton.Button active={true} shape="default" block={true} />
+                <Skeleton.Button
+                  active={true}
+                  shape="default"
+                  block={true}
+                  style={{
+                    marginTop: "var(--mpr-3)",
+                    height: "10px",
+                  }}
+                />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+        <Row
+          style={{
+            width: "100%",
+          }}
+        >
+          <Col span={24}>
+            <Skeleton.Button
+              active={true}
+              shape="default"
+              block={true}
+              style={{
+                height: "300px",
+              }}
+            />
+          </Col>
+        </Row>
+      </>
+    );
+  };
+
   return (
     <ProtectedRoute>
       <CardLayout>
@@ -130,72 +171,79 @@ export default function Account() {
             justifyContent: "space-between",
           }}
         >
-          <Row
-            style={{
-              width: "100%",
-            }}
-          >
-            <Col span={24}>
-              <Row gutter={[15, 0]} justify="start" align="middle">
-                <Col>
-                  <img
-                    style={{
-                      width: 100,
-                      height: 100,
-                      objectFit: "cover",
-                      borderRadius: 50,
-                      border: "1px solid var(--border-color)",
-                    }}
-                    src={data?.data?.photos?.secure_url}
-                  />
-                </Col>
-                <Col>
-                  <h1>{data?.data?.name}</h1>
-                  <p className="opacity05">{userData?.email}</p>
+          {isLoading ? (
+            skeleton()
+          ) : (
+            <>
+              <Row
+                style={{
+                  width: "100%",
+                }}
+              >
+                <Col span={24}>
+                  <Row gutter={[15, 0]} justify="start" align="middle">
+                    <Col>
+                      <img
+                        style={{
+                          width: 100,
+                          height: 100,
+                          objectFit: "cover",
+                          borderRadius: 50,
+                          border: "1px solid var(--border-color)",
+                        }}
+                        src={data?.data?.photos?.secure_url}
+                      />
+                    </Col>
+                    <Col>
+                      <h1>{data?.data?.name}</h1>
+                      <p className="opacity05">{userData?.email}</p>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
-            </Col>
-          </Row>
-          <Row
-            style={{
-              width: "100%",
-            }}
-          >
-            <Col span={24}>
-              <Form size="large" layout="vertical">
-                <Form.Item label="Name">
-                  <Input
-                    placeholder="Name"
-                    value={userData.name}
-                    name="name"
-                    onChange={onValueChange}
-                  />
-                </Form.Item>
-              </Form>
-              <Form.Item label="Profile photo">
-                <Dragger
-                  onChange={(e) => {
-                    setUploadedPhoto(uploadImage(e));
-                  }}
-                  style={{
-                    padding: "0px var(--mpr-3)",
-                  }}
-                  multiple={false}
-                >
-                  <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
-                  </p>
-                  <p className="ant-upload-text">
-                    Click or drag file to this area to upload
-                  </p>
-                  <p className="ant-upload-hint">
-                    maximum mage size should be 3MB and file format should be
-                    jpeg, png, jpg
-                  </p>
-                </Dragger>
-              </Form.Item>
-            </Col>
-          </Row>
+              <Row
+                style={{
+                  width: "100%",
+                }}
+              >
+                <Col span={24}>
+                  <Form size="large" layout="vertical">
+                    <Form.Item label="Name">
+                      <Input
+                        placeholder="Name"
+                        value={userData.name}
+                        name="name"
+                        onChange={onValueChange}
+                      />
+                    </Form.Item>
+                    <Form.Item label="Profile photo">
+                      <Dragger
+                        onChange={(e) => {
+                          setUploadedPhoto(uploadImage(e));
+                        }}
+                        style={{
+                          padding: "0px var(--mpr-3)",
+                        }}
+                        multiple={false}
+                      >
+                        <p className="ant-upload-drag-icon">
+                          <InboxOutlined />
+                        </p>
+                        <p className="ant-upload-text">
+                          Click or drag file to this area to upload
+                        </p>
+                        <p className="ant-upload-hint">
+                          maximum mage size should be 3MB and file format should
+                          be jpeg, png, jpg
+                        </p>
+                      </Dragger>
+                    </Form.Item>
+                  </Form>
+                </Col>
+              </Row>
+            </>
+          )}
+
           <Row
             style={{
               width: "100%",
