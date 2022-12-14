@@ -69,6 +69,7 @@ export default function NavBar() {
       icon: <LogoutOutlined />,
       onClick: () => {
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         window.location.href = "/login";
       },
     },

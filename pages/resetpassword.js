@@ -35,10 +35,12 @@ export default function ResetPassword() {
       return message.error(response.error.data.message);
     }
     if (response?.data) {
-      const token = response.data.data.token;
-      localStorage.setItem("accessToken", token);
+      const accessToken = response.data.data.accessToken;
+      const refreshToken = response.data.data.refreshToken;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
       dispatch(setIsAuth(true));
-      dispatch(setToken(token));
+      dispatch(setToken(accessToken));
       router.push("/");
       return message.success(response.data.message);
     }

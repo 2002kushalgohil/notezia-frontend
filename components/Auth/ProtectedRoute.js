@@ -12,13 +12,13 @@ export default function ProtectedRoute({ children }) {
 
   // -------------------- Is Authenticated checker --------------------
   const isAuthenticated = () => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) {
       router.push("/login");
     }
-    if (Jwt.decode(token)?.id) {
+    if (Jwt.decode(accessToken)?.id) {
       dispatch(setIsAuth(true));
-      dispatch(setToken(token));
+      dispatch(setToken(accessToken));
     } else {
       router.push("/login");
       dispatch(setIsAuth(false));

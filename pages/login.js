@@ -60,10 +60,12 @@ export default function Login() {
     }
 
     if (response?.data) {
-      const token = response.data.data.token;
-      localStorage.setItem("accessToken", token);
+      const accessToken = response.data.data.accessToken;
+      const refreshToken = response.data.data.refreshToken;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
       dispatch(setIsAuth(true));
-      dispatch(setToken(token));
+      dispatch(setToken(accessToken));
       route.push("/");
       return message.success(response.data.message);
     }
@@ -102,10 +104,12 @@ export default function Login() {
 
   const googleAuthHandler = () => {
     if (googleAuthSuccess) {
-      const token = googleAuthData.data.token;
-      localStorage.setItem("accessToken", token);
+      const accessToken = googleAuthData.data.accessToken;
+      const refreshToken = googleAuthData.data.refreshToken;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
       dispatch(setIsAuth(true));
-      dispatch(setToken(token));
+      dispatch(setToken(accessToken));
       route.push("/");
       return message.success(googleAuthData.message);
     }
