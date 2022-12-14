@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  // baseUrl: "https://notezia-backend.kushalgohil.com/.netlify/functions/api",
-  baseUrl: "http://localhost:9000/.netlify/functions/api",
+  baseUrl: "https://notezia-backend.kushalgohil.com/.netlify/functions/api",
+  // baseUrl: "http://localhost:9000/.netlify/functions/api",
   prepareHeaders: (headers) => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
