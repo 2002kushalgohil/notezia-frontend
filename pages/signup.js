@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import CardLayout from "../components/Layouts/CardLayout";
-import validateEmail from "../GlobalFunctions/validateEmail";
+import validateEmail from "../utils/validateEmail";
 import {
   useSignUpMutation,
   useGoogleAuthQuery,
