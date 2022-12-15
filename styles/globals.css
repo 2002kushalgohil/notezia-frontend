@@ -10,8 +10,8 @@
 
 :root {
   --primary-color: #275bc3;
+  --primary-color-dark: #164fc0;
   --primary-color-light: #edf1f7;
-  --primary-color-dark: #2256be;
   --border-color: #d9d9d9;
   --mpr-large: 60px;
   --mpr-1: 30px;

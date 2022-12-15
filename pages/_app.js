@@ -19,14 +19,18 @@ function MyApp({ Component, pageProps }) {
           theme={{
             components: {
               Input: {
-                borderRadiusLG: "7.5px",
                 lineHeightLG: "35px",
               },
               Form: {
                 marginLG: "10px",
               },
             },
-            colorPrimary: "#275bc3",
+            token: {
+              colorPrimary: "#275bc3",
+              colorInfo: "#275bc3",
+              colorTextBase: "#1a1a1a",
+              borderRadius: 7.5,
+            },
           }}
         >
           <Component {...pageProps} />
