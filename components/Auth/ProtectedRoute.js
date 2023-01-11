@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Jwt from "jsonwebtoken";
 import { setIsAuth, setToken } from "../../Redux/Slices/Auth/AuthSlice";
 import { useRouter } from "next/router";
-import NavBar from "../NavBar";
+import NavBar from "../NavBar/NavBar";
 
 export default function ProtectedRoute({ children }) {
   const dispatch = useDispatch();

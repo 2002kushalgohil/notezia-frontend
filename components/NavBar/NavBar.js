@@ -1,24 +1,31 @@
-import { Col, Dropdown, Input, Menu, Row, Skeleton } from "antd";
+import { Col, Dropdown, Input, Menu, Row, Skeleton, Space } from "antd";
 import {
+  AppstoreOutlined,
+  ContainerOutlined,
+  DesktopOutlined,
   LogoutOutlined,
+  MailOutlined,
+  MenuOutlined,
+  PieChartOutlined,
   QuestionCircleOutlined,
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { CaretDownOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import { useUserProfileQuery } from "../Redux/Services/service";
+import { useUserProfileQuery } from "../../Redux/Services/service";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserProfile } from "../Redux/Slices/User/userSlice";
+import { setUserProfile } from "../../Redux/Slices/User/userSlice";
 import Link from "next/link";
 
 export default function NavBar() {
   const userData = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isMenuCollapse, setIsMenuCollapse] = useState(true);
 
-  const items = [
+  const rightMenuitems = [
     {
       label: (
         <Row justify="center" align="middle">
@@ -75,6 +82,41 @@ export default function NavBar() {
     },
   ];
 
+  function getItem(label, key, icon, children, type) {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    };
+  }
+
+  const leftMenuItems = [
+    {
+      label: "Option 1",
+      key: 1,
+      icon: <PieChartOutlined />,
+    },
+    {
+      label: "Option 2",
+      key: 2,
+      icon: <PieChartOutlined />,
+      children: [
+        {
+          label: "Sub Option 1",
+          key: 3,
+          icon: <PieChartOutlined />,
+        },
+        {
+          label: "Sub Option 2",
+          key: 4,
+          icon: <PieChartOutlined />,
+        },
+      ],
+    },
+  ];
+
   const { data, isSuccess, isError, isLoading } = useUserProfileQuery();
 
   useEffect(() => {
@@ -116,16 +158,52 @@ export default function NavBar() {
       justify="center"
       align="middle"
     >
+      <div
+        style={{
+          position: "fixed",
+          top: "80px",
+          left: 0,
+          height: "100vh",
+        }}
+      >
+        <Menu
+          mode="inline"
+          inlineCollapsed={isMenuCollapse}
+          items={leftMenuItems}
+          style={{
+            height: "100%",
+          }}
+          onMouseEnter={() => {
+            setIsMenuCollapse(false);
+          }}
+          onMouseLeave={() => {
+            setIsMenuCollapse(true);
+          }}
+        />
+      </div>
       <Col {...{ xs: 7, sm: 12, md: 4, lg: 3 }}>
-        <Link href="/">
-          <h2
-            style={{
-              cursor: "pointer",
-            }}
-          >
-            Notezia
-          </h2>
-        </Link>
+        <Row>
+          <Space size={38}>
+            <MenuOutlined
+              style={{
+                fontSize: "1.2rem",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                setIsMenuCollapse(!isMenuCollapse);
+              }}
+            />
+            <Link href="/">
+              <h2
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                Notezia
+              </h2>
+            </Link>
+          </Space>
+        </Row>
       </Col>
       <Col {...{ xs: 0, sm: 0, md: 13, lg: 9 }}>
         <Input
@@ -150,7 +228,7 @@ export default function NavBar() {
               </p>
               <Dropdown
                 menu={{
-                  items,
+                  rightMenuitems,
                 }}
                 trigger={["click"]}
               >
@@ -173,7 +251,7 @@ export default function NavBar() {
             <Col>
               <Dropdown
                 menu={{
-                  items,
+                  rightMenuitems,
                 }}
                 trigger={["click"]}
               >
