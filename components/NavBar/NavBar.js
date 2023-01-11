@@ -1,12 +1,7 @@
 import { Col, Dropdown, Input, Menu, Row, Skeleton, Space } from "antd";
 import {
-  AppstoreOutlined,
-  ContainerOutlined,
-  DesktopOutlined,
   LogoutOutlined,
-  MailOutlined,
   MenuOutlined,
-  PieChartOutlined,
   QuestionCircleOutlined,
   SearchOutlined,
   UserOutlined,
@@ -17,6 +12,7 @@ import { useUserProfileQuery } from "../../Redux/Services/service";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserProfile } from "../../Redux/Slices/User/userSlice";
+import SideBar from "./SideBar";
 import Link from "next/link";
 
 export default function NavBar() {
@@ -25,7 +21,7 @@ export default function NavBar() {
   const router = useRouter();
   const [isMenuCollapse, setIsMenuCollapse] = useState(true);
 
-  const rightMenuitems = [
+  const items = [
     {
       label: (
         <Row justify="center" align="middle">
@@ -82,41 +78,6 @@ export default function NavBar() {
     },
   ];
 
-  function getItem(label, key, icon, children, type) {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
-  }
-
-  const leftMenuItems = [
-    {
-      label: "Option 1",
-      key: 1,
-      icon: <PieChartOutlined />,
-    },
-    {
-      label: "Option 2",
-      key: 2,
-      icon: <PieChartOutlined />,
-      children: [
-        {
-          label: "Sub Option 1",
-          key: 3,
-          icon: <PieChartOutlined />,
-        },
-        {
-          label: "Sub Option 2",
-          key: 4,
-          icon: <PieChartOutlined />,
-        },
-      ],
-    },
-  ];
-
   const { data, isSuccess, isError, isLoading } = useUserProfileQuery();
 
   useEffect(() => {
@@ -147,53 +108,20 @@ export default function NavBar() {
   return (
     <Row
       style={{
-        borderBottom: "1px solid var(--border-color)",
         padding: "var(--mpr-2) var(--mpr-1)",
-        position: "fixed",
+        position: "sticky",
         width: "100%",
         zIndex: 1000,
         top: 0,
-        backdropFilter: "blur(10px)",
+        backgroundColor: "white",
       }}
       justify="center"
       align="middle"
     >
-      <div
-        style={{
-          position: "fixed",
-          top: "80px",
-          left: 0,
-          height: "100vh",
-        }}
-      >
-        <Menu
-          mode="inline"
-          inlineCollapsed={isMenuCollapse}
-          items={leftMenuItems}
-          style={{
-            height: "100%",
-          }}
-          onMouseEnter={() => {
-            setIsMenuCollapse(false);
-          }}
-          onMouseLeave={() => {
-            setIsMenuCollapse(true);
-          }}
-        />
-      </div>
-      <Col {...{ xs: 7, sm: 12, md: 4, lg: 3 }}>
+      <Col {...{ xs: 5, sm: 12, md: 5, lg: 5 }}>
         <Row>
           <Space size={38}>
-            <MenuOutlined
-              style={{
-                fontSize: "1.2rem",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setIsMenuCollapse(!isMenuCollapse);
-              }}
-            />
-            <Link href="/">
+            <Link href="/dashboard">
               <h2
                 style={{
                   cursor: "pointer",
@@ -205,14 +133,14 @@ export default function NavBar() {
           </Space>
         </Row>
       </Col>
-      <Col {...{ xs: 0, sm: 0, md: 13, lg: 9 }}>
+      <Col {...{ xs: 0, sm: 0, md: 9, lg: 7 }}>
         <Input
           prefix={<SearchOutlined className="site-form-item-icon" />}
           size="large"
-          placeholder="Search"
+          placeholder="&nbsp; Search"
         />
       </Col>
-      <Col {...{ xs: 17, sm: 12, md: 7, lg: 12 }}>
+      <Col {...{ xs: 19, sm: 12, md: 10, lg: 12 }}>
         {isLoading ? (
           skeleton()
         ) : (
@@ -228,7 +156,7 @@ export default function NavBar() {
               </p>
               <Dropdown
                 menu={{
-                  rightMenuitems,
+                  items,
                 }}
                 trigger={["click"]}
               >
@@ -251,7 +179,7 @@ export default function NavBar() {
             <Col>
               <Dropdown
                 menu={{
-                  rightMenuitems,
+                  items,
                 }}
                 trigger={["click"]}
               >

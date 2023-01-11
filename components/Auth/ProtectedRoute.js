@@ -4,6 +4,7 @@ import Jwt from "jsonwebtoken";
 import { setIsAuth, setToken } from "../../Redux/Slices/Auth/AuthSlice";
 import { useRouter } from "next/router";
 import NavBar from "../NavBar/NavBar";
+import SideBar from "../NavBar/SideBar";
 
 export default function ProtectedRoute({ children }) {
   const dispatch = useDispatch();
@@ -35,7 +36,12 @@ export default function ProtectedRoute({ children }) {
         <>
           <section className="layoutParent">
             <div className="layoutMain">
-              {!(router.asPath == "/account") && <NavBar />}
+              {!(router.asPath == "/account") && (
+                <>
+                  <NavBar />
+                  <SideBar />
+                </>
+              )}
               {children}
             </div>
           </section>

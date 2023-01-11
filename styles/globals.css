@@ -24,6 +24,10 @@ h1 {
   font-weight: 500;
 }
 
+h4 {
+  font-weight: 600;
+}
+
 p {
   font-weight: 500;
 }
@@ -32,8 +36,8 @@ a {
   color: var(--primary-color);
 }
 
-h4 {
-  font-weight: 600;
+.icon {
+  font-size: 1.2rem;
 }
 
 .opacity05 {
@@ -73,6 +77,11 @@ h4 {
   /* max-width: 1400px; */
 }
 
-.ant-form-item-label{
+.ant-form-item-label {
   padding-bottom: 5px !important;
+}
+
+
+.ant-modal-content{
+  border-radius: var(--mpr-2) !important;
 }
