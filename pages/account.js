@@ -236,7 +236,7 @@ export default function Account() {
                   <Button
                     size="large"
                     onClick={() => {
-                      route.push("/");
+                      route.push("/dashboard");
                     }}
                   >
                     Cancel

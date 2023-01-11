@@ -41,7 +41,7 @@ export default function ResetPassword() {
       localStorage.setItem("refreshToken", refreshToken);
       dispatch(setIsAuth(true));
       dispatch(setToken(accessToken));
-      router.push("/");
+      router.push("/dashboard");
       return message.success(response.data.message);
     }
   };
