@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Home chores",
+    "content": "Bring milk and wash utensils \n Ok"
+  },
+  {
+    "id": 2,
+    "title": "School homework",
+    "content": "Make project and thats it \n Ok"
+  },
+  {
+    "id": 3,
+    "title": "Work related",
+    "content": "Make UI's and submit it \n Ok"
+  },
+  {
+    "id": 4,
+    "title": "Entertainment",
+    "content": "Watch documentry \n Ok"
+  }
+]
