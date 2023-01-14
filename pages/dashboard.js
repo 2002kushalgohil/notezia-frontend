@@ -2,7 +2,7 @@ import { Col, Row } from "antd";
 import ProtectedRoute from "../components/Auth/ProtectedRoute";
 import NotesWorkflow from "../components/Dashboard/NotesWorkflow";
 
-export default function () {
+export default function Dashboard() {
   return (
     <ProtectedRoute>
       <div

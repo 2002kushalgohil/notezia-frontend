@@ -1,5 +1,4 @@
 import React, { forwardRef } from "react";
-import { Col, Row } from "antd";
 import styles from "../../styles/NotesWorkflow.module.css";
 export const Card = forwardRef(
   ({ data, index, isDragging, style, ...props }, ref) => {
@@ -21,3 +20,7 @@ export const Card = forwardRef(
     );
   }
 );
+
+Card.displayName = "Card";
+
+export default Card;
