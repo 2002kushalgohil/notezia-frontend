@@ -1,0 +1,26 @@
+.NotesWorkflowMainDiv {
+  display: grid;
+  grid-auto-flow: row dense;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1200px) {
+  .NotesWorkflowMainDiv {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .NotesWorkflowMainDiv {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.NotesWorkflowCard {
+  transform-origin: 0 0;
+  cursor: grab;
+  height: 220px;
+  width: 100%;
+  border-radius: var(--mpr-2);
+  padding: var(--mpr-2) var(--mpr-1);
+}

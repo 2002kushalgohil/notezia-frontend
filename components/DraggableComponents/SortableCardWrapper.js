@@ -2,9 +2,9 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-import { Card } from "./Card";
+import { Card } from "../Dashboard/Card";
 
-export const SortablePhoto = (props) => {
+export const SortableCardWrapper = (props) => {
   const {
     setNodeRef,
     attributes,

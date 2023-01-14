@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import ProtectedRoute from "../components/Auth/ProtectedRoute";
-import App from "../components/Dashboard/App";
+import NotesWorkflow from "../components/Dashboard/NotesWorkflow";
 
 export default function () {
   return (
@@ -20,7 +20,7 @@ export default function () {
           }}
         >
           <Col span={24}>
-            <App />
+            <NotesWorkflow />
           </Col>
         </Row>
       </div>

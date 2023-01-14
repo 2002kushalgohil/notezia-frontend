@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "title": "Note 1",
+    "content": "Lorem ipsum text for demo",
+    "bgColor": "#a1eefe"
+  },
+  {
+    "id": 2,
+    "title": "Note 2",
+    "content": "Lorem ipsum text for demo",
+    "bgColor": "#bfffc3"
+  },
+  {
+    "id": 3,
+    "title": "Note 3",
+    "content": "Lorem ipsum text for demo",
+    "bgColor": "#ffc3c3"
+  },
+  {
+    "id": 4,
+    "title": "Note 4",
+    "content": "Lorem ipsum text for demo",
+    "bgColor": "#ffde9f"
+  }
+]

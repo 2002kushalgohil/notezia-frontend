@@ -1,30 +1,22 @@
 import React, { forwardRef } from "react";
-
+import { Col, Row } from "antd";
+import styles from "../../styles/NotesWorkflow.module.css";
 export const Card = forwardRef(
   ({ data, index, isDragging, style, ...props }, ref) => {
+    const { title, content, bgColor } = data;
     return (
       <div
         ref={ref}
         style={{
           opacity: isDragging ? 0 : 1,
-          transformOrigin: "0 0",
-          backgroundColor: "white",
-          border: "1px solid grey",
-          padding: "20px",
-          borderRadius: "10px",
-          cursor: "grab",
+          backgroundColor: bgColor,
           ...style,
         }}
+        className={styles.NotesWorkflowCard}
         {...props}
       >
-        <h1>{data.title}</h1>
-        <p
-          style={{
-            marginTop: "10px",
-          }}
-        >
-          {data.content}
-        </p>
+        <h2>{title}</h2>
+        <p>{content}</p>
       </div>
     );
   }
