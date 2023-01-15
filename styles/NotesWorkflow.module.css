@@ -19,7 +19,8 @@
 .NotesWorkflowCard {
   transform-origin: 0 0;
   cursor: grab;
-  height: 220px;
+  height: 100%;
+  min-height: 220px;
   width: 100%;
   border-radius: var(--mpr-2);
   padding: var(--mpr-2) var(--mpr-1);

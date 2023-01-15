@@ -1,0 +1,12 @@
+.inputBx{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.title,.title::placeholder {
+  font-size: 1.75rem;
+}
+
+.description,.description::placeholder {
+  font-size: 1.1rem;
+}

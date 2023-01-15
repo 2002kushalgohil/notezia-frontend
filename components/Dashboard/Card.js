@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import styles from "../../styles/NotesWorkflow.module.css";
 export const Card = forwardRef(
   ({ data, index, isDragging, style, ...props }, ref) => {
-    const { title, content, bgColor } = data;
+    const { title, description, bgColor } = data;
     return (
       <div
         ref={ref}
@@ -15,7 +15,7 @@ export const Card = forwardRef(
         {...props}
       >
         <h2>{title}</h2>
-        <p>{content}</p>
+        <p>{description}</p>
       </div>
     );
   }

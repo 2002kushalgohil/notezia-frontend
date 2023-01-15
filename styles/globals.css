@@ -19,6 +19,10 @@
   --mpr-3: 7.5px;
 }
 
+::placeholder {
+  font-size: 1rem;
+}
+
 h1 {
   font-size: 1.75rem;
   font-weight: 500;
@@ -81,7 +85,6 @@ a {
   padding-bottom: 5px !important;
 }
 
-
-.ant-modal-content{
+.ant-modal-content {
   border-radius: var(--mpr-2) !important;
 }
