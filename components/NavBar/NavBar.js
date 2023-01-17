@@ -34,6 +34,7 @@ export default function NavBar() {
               borderRadius: 50,
               marginRight: "var(--mpr-2)",
             }}
+            referrerPolicy="no-referrer"
             src={userData?.photos?.secure_url}
           />
           <div>
@@ -111,7 +112,7 @@ export default function NavBar() {
         padding: "var(--mpr-2) var(--mpr-1)",
         position: "sticky",
         width: "100%",
-        zIndex: 1000,
+        zIndex: 500,
         top: 0,
         backgroundColor: "white",
       }}
@@ -194,6 +195,7 @@ export default function NavBar() {
                     borderRadius: 50,
                     border: "1px solid var(--border-color)",
                   }}
+                  referrerPolicy="no-referrer"
                   src={userData?.photos?.secure_url}
                 />
               </Dropdown>

@@ -2,13 +2,13 @@ import React, { forwardRef } from "react";
 import styles from "../../styles/NotesWorkflow.module.css";
 export const Card = forwardRef(
   ({ data, index, isDragging, style, ...props }, ref) => {
-    const { title, description, bgColor } = data;
+    const { title, description } = data;
     return (
       <div
         ref={ref}
         style={{
           opacity: isDragging ? 0 : 1,
-          backgroundColor: bgColor,
+          backgroundColor: "#ffde9f",
           ...style,
         }}
         className={styles.NotesWorkflowCard}

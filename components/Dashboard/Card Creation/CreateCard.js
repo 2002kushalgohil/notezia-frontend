@@ -1,24 +1,28 @@
 import { Button, Col, Input, Row } from "antd";
-import { useState } from "react";
 import styles from "../../../styles/Card.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setCardData } from "../../../Redux/Slices/Card/cardSlice";
 export default function CreateCard({ changeModalStatus }) {
-  const [userData, setUserData] = useState({
-    title: "",
-    description: "",
-  });
-
+  const userData = useSelector((state) => state.card.data);
+  const dispatch = useDispatch();
   const { title, description } = userData;
 
   const onChangeHandler = (e) => {
     const { value, name } = e.target;
-    setUserData({
-      ...userData,
-      [name]: value,
-    });
+    let sentData = { ...userData };
+    sentData = { ...sentData, [name]: value };
+    dispatch(setCardData(sentData));
   };
 
   return (
-    <Row gutter={[0, 5]}>
+    <Row
+      gutter={[0, 5]}
+      style={{
+        backgroundColor: "#ffde9f",
+        padding: "20px 25px",
+        borderRadius: "var(--mpr-2)",
+      }}
+    >
       <Col span={24}>
         <Input.TextArea
           placeholder="Title"

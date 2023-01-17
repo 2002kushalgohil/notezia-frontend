@@ -87,4 +87,63 @@ a {
 
 .ant-modal-content {
   border-radius: var(--mpr-2) !important;
+  padding: 0px !important;
+}
+
+.loadingContainer {
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.loadingTile {
+  position: absolute;
+  display: block;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  animation: speed 2s infinite ease-in-out;
+}
+
+.loadingOne {
+  background: #4285f4;
+  animation-delay: 1.5s;
+}
+.loadingTwo {
+  background: #ea4335;
+  animation-delay: 1s;
+}
+.loadingThree {
+  background: #fbbc05;
+  animation-delay: 0.5s;
+}
+.loadingFour {
+  background: #34a853;
+}
+
+@keyframes speed {
+  0% {
+    transform: translate(0%);
+    border-radius: 50%;
+  }
+  25% {
+    transform: translate(150%) scale(0.5);
+    border-radius: 0%;
+  }
+  50% {
+    transform: translate(150%, 150%);
+    border-radius: 50%;
+  }
+  75% {
+    transform: translate(0, 150%) scale(0.5);
+    border-radius: 0%;
+  }
+}
+
+@media (max-width: 768px) {
+  .loadingContainer {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
 }

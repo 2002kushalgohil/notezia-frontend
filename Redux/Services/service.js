@@ -41,7 +41,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const noteziaApi = createApi({
   reducerPath: "noteziaApi",
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["userProfile"],
+  tagTypes: ["userProfile", "card"],
   endpoints: (builder) => ({
     signUp: builder.mutation({
       query: (data) => ({
@@ -92,6 +92,38 @@ export const noteziaApi = createApi({
       }),
       invalidatesTags: ["userProfile"],
     }),
+
+    createCard: builder.mutation({
+      query: (data) => ({
+        url: "/card/",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["card"],
+    }),
+
+    getCards: builder.query({
+      query: () => "/card/",
+      providesTags: ["card"],
+    }),
+
+    updateCard: builder.mutation({
+      query: ({ _id, data }) => ({
+        url: `/card/${_id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["card"],
+    }),
+
+    cardPriorities: builder.mutation({
+      query: (data) => ({
+        url: "/card/cardPriorities",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["card"],
+    }),
   }),
 });
 
@@ -103,4 +135,8 @@ export const {
   useResetPasswordMutation,
   useUserProfileQuery,
   useUpdateUserProfileMutation,
+  useCreateCardMutation,
+  useGetCardsQuery,
+  useUpdateCardMutation,
+  useCardPrioritiesMutation,
 } = noteziaApi;

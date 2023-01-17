@@ -12,7 +12,7 @@ export const SortableCardWrapper = (props) => {
     isDragging,
     transform,
     transition,
-  } = useSortable({ id: props.data.id });
+  } = useSortable({ id: props.data._id });
 
   return (
     <Card

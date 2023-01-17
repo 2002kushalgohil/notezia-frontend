@@ -1,4 +1,5 @@
 import { Modal } from "antd";
+import { useEffect } from "react";
 import CreateCard from "./CreateCard";
 
 export default function CardModal({ open, changeModalStatus }) {

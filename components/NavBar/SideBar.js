@@ -35,7 +35,7 @@ export default function SideBar() {
         top: "75px",
         left: 0,
         height: "100vh",
-        zIndex: 1000,
+        zIndex: 500,
       }}
     >
       <Menu

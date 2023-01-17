@@ -2,25 +2,21 @@
   {
     "id": 1,
     "title": "Note 1",
-    "description": "Lorem ipsum text for demo",
-    "bgColor": "#a1eefe"
+    "description": "Lorem ipsum text for demo"
   },
   {
     "id": 2,
     "title": "Note 2",
-    "description": "Lorem ipsum text for demo",
-    "bgColor": "#bfffc3"
+    "description": "Lorem ipsum text for demo"
   },
   {
     "id": 3,
     "title": "Note 3",
-    "description": "Lorem ipsum text for demo",
-    "bgColor": "#ffc3c3"
+    "description": "Lorem ipsum text for demo"
   },
   {
     "id": 4,
     "title": "Note 4",
-    "description": "Lorem ipsum text for demo",
-    "bgColor": "#ffde9f"
+    "description": "Lorem ipsum text for demo"
   }
 ]

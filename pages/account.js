@@ -172,6 +172,7 @@ export default function Account() {
                           borderRadius: 50,
                           border: "1px solid var(--border-color)",
                         }}
+                        referrerPolicy="no-referrer"
                         src={data?.data?.photos?.secure_url}
                       />
                     </Col>
