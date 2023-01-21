@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
+  /* transition: all 0.2s ease-in-out; */
   /* border: 1px solid red; */
 }
 
@@ -38,10 +39,6 @@ p {
 
 a {
   color: var(--primary-color);
-}
-
-.icon {
-  font-size: 1.2rem;
 }
 
 .opacity05 {

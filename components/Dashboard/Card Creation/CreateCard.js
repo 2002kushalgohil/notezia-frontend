@@ -2,6 +2,7 @@ import { Button, Col, Input, Row } from "antd";
 import styles from "../../../styles/Card.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setCardData } from "../../../Redux/Slices/Card/cardSlice";
+import Options from "./Options/Options";
 export default function CreateCard({ changeModalStatus }) {
   const userData = useSelector((state) => state.card.data);
   const dispatch = useDispatch();
@@ -52,7 +53,9 @@ export default function CreateCard({ changeModalStatus }) {
         }}
       >
         <Row justify="space-between" align="middle">
-          <Col>Options</Col>
+          <Col>
+            <Options changeModalStatus={changeModalStatus} _id={userData?._id} />
+          </Col>
           <Col>
             <Button
               type="text"

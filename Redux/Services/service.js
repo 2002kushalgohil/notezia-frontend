@@ -116,6 +116,14 @@ export const noteziaApi = createApi({
       invalidatesTags: ["card"],
     }),
 
+    deleteCard: builder.mutation({
+      query: (_id) => ({
+        url: `/card/${_id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["card"],
+    }),
+
     cardPriorities: builder.mutation({
       query: (data) => ({
         url: "/card/cardPriorities",
@@ -138,5 +146,6 @@ export const {
   useCreateCardMutation,
   useGetCardsQuery,
   useUpdateCardMutation,
+  useDeleteCardMutation,
   useCardPrioritiesMutation,
 } = noteziaApi;

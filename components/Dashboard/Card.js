@@ -4,7 +4,6 @@ import styles from "../../styles/NotesWorkflow.module.css";
 export const Card = forwardRef(
   ({ data, index, isDragging, style, ...props }, ref) => {
     const cardData = useSelector((state) => state.card.data);
-    console.log(cardData);
     const { title, description, _id } = data;
     return (
       <div

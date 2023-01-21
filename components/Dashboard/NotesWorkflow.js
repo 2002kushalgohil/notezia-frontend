@@ -22,13 +22,6 @@ export default function NotesWorkflow() {
   const dispatch = useDispatch();
   const [cards, setCards] = useState([]);
   const [activeId, setActiveId] = useState(null);
-  const [activeCard, setActiveCard] = useState({});
-
-  useEffect(() => {
-    if (activeId) {
-      setActiveCard(cards[cards.findIndex((item) => item._id == activeId)]);
-    }
-  }, [activeId]);
 
   function handleDragOver(event) {
     const { active, over } = event;
@@ -121,7 +114,11 @@ export default function NotesWorkflow() {
             if (e.active.id !== e.over.id) {
               changeCardPriorities();
             } else {
-              dispatch(setCardData(activeCard));
+              dispatch(
+                setCardData(
+                  cards[cards.findIndex((item) => item._id == activeId)]
+                )
+              );
               setIsModalOpen(true);
             }
           }}
@@ -152,7 +149,11 @@ export default function NotesWorkflow() {
             <DragOverlay>
               {activeId ? (
                 <>
-                  <Card data={activeCard} />
+                  <Card
+                    data={
+                      cards[cards.findIndex((item) => item._id == activeId)]
+                    }
+                  />
                 </>
               ) : null}
             </DragOverlay>

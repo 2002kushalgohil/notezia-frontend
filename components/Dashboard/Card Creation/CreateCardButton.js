@@ -57,7 +57,7 @@ export default function CreateCardButton() {
       >
         <Row justify="center" align="middle">
           <Space>
-            <h3>Create note</h3> <EditOutlined className="icon" />
+            <h3>Create note</h3> <EditOutlined />
           </Space>
         </Row>
       </Button>
