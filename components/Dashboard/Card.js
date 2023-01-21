@@ -1,13 +1,16 @@
 import React, { forwardRef } from "react";
+import { useSelector } from "react-redux";
 import styles from "../../styles/NotesWorkflow.module.css";
 export const Card = forwardRef(
   ({ data, index, isDragging, style, ...props }, ref) => {
-    const { title, description } = data;
+    const cardData = useSelector((state) => state.card.data);
+    console.log(cardData);
+    const { title, description, _id } = data;
     return (
       <div
         ref={ref}
         style={{
-          opacity: isDragging ? 0 : 1,
+          opacity: cardData._id == _id || isDragging ? 0 : 1,
           backgroundColor: "#ffde9f",
           ...style,
         }}

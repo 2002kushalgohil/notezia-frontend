@@ -15,12 +15,20 @@ import {
 } from "../../Redux/Services/service";
 import { setIsLoading } from "../../Redux/Slices/Etc/etcSlice";
 import CreateCardButton from "./Card Creation/CreateCardButton";
+import cardInitialState from "../../Redux/Initial States/cardInitialState";
 export default function NotesWorkflow() {
   const cardData = useSelector((state) => state.card.data);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const [cards, setCards] = useState([]);
   const [activeId, setActiveId] = useState(null);
+  const [activeCard, setActiveCard] = useState({});
+
+  useEffect(() => {
+    if (activeId) {
+      setActiveCard(cards[cards.findIndex((item) => item._id == activeId)]);
+    }
+  }, [activeId]);
 
   function handleDragOver(event) {
     const { active, over } = event;
@@ -68,6 +76,7 @@ export default function NotesWorkflow() {
     }
 
     if (response?.data) {
+      dispatch(setCardData(cardInitialState));
       return message.success(response.data.message);
     }
   };
@@ -79,7 +88,13 @@ export default function NotesWorkflow() {
       delete data._id;
       delete data.createdBy;
 
-      updateCard(_id, data);
+      const originalCard = cards[cards.findIndex((item) => item._id == _id)];
+
+      if (JSON.stringify(cardData) !== JSON.stringify(originalCard)) {
+        updateCard(_id, data);
+      } else {
+        dispatch(setCardData(cardInitialState));
+      }
     }
   }, [isModalOpen]);
 
@@ -106,11 +121,7 @@ export default function NotesWorkflow() {
             if (e.active.id !== e.over.id) {
               changeCardPriorities();
             } else {
-              dispatch(
-                setCardData(
-                  cards[cards.findIndex((item) => item._id == e.active.id)]
-                )
-              );
+              dispatch(setCardData(activeCard));
               setIsModalOpen(true);
             }
           }}
@@ -141,11 +152,7 @@ export default function NotesWorkflow() {
             <DragOverlay>
               {activeId ? (
                 <>
-                  <Card
-                    data={
-                      cards[cards.findIndex((item) => item._id == activeId)]
-                    }
-                  />
+                  <Card data={activeCard} />
                 </>
               ) : null}
             </DragOverlay>
