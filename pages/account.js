@@ -53,35 +53,45 @@ export default function Account() {
   // -------------------- Update profile Handler --------------------
   const [_updateProfile, { isLoading: updateProfileLoading }] =
     useUpdateUserProfileMutation();
+
   const onSubmitHandler = async () => {
-    const sentData = { ...userData };
+    try {
+      let sentData = { ...userData };
 
-    if (uploadedPhoto) {
-      setIsImageLoading(true);
-      // -------------------- Delete current profile picture --------------------
-      if (sentData.photos.id != "NA") {
-        await deleteImage(sentData.photos.id);
+      if (uploadedPhoto) {
+        setIsImageLoading(true);
+
+        if (sentData.photos.id !== "NA") {
+          await deleteImage(sentData.photos.id);
+        }
+
+        const result = await uploadImage(uploadedPhoto.originFileObj);
+        if (result?.secure_url) {
+          sentData = {
+            ...sentData,
+            photos: {
+              id: result.public_id,
+              secure_url: result.secure_url,
+            },
+          };
+        }
+
+        setIsImageLoading(false);
       }
 
-      // -------------------- Upload new profile picture --------------------
-      const result = await uploadImage(uploadedPhoto.originFileObj);
-      if (result?.secure_url) {
-        sentData = {
-          ...sentData,
-          photos: {
-            id: result.public_id,
-            secure_url: result.secure_url,
-          },
-        };
-      }
-      setIsImageLoading(false);
-    }
+      const result = await _updateProfile(sentData);
 
-    const result = await _updateProfile(sentData);
-    if (result?.data?.data) {
-      return message.success(result.data.message);
+      if (result?.data?.data) {
+        return message.success(result.data.message);
+      }
+
+      return message.error(result.error.data.message);
+    } catch (error) {
+      console.error("An error occurred during profile update:", error);
+      return message.error(
+        "An error occurred while processing your profile update request"
+      );
     }
-    return message.error(result.error.data.message);
   };
 
   // -------------------- Skeleton --------------------

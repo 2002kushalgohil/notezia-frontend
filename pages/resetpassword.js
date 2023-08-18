@@ -23,26 +23,35 @@ export default function ResetPassword() {
   // -------------------- Reset password Handler --------------------
   const [_resetPassword, { isLoading }] = useResetPasswordMutation();
   const onResetPasswordHandler = async () => {
-    if (!(userData.password && userData.confirmpassword)) {
-      return message.warning("Please fill all the details");
-    }
-    if (userData.password != userData.confirmpassword) {
-      return message.warning("Passwords does not match");
-    }
-    const queryToken = query.token;
-    const response = await _resetPassword({ userData, queryToken });
-    if (response?.error) {
-      return message.error(response.error.data.message);
-    }
-    if (response?.data) {
-      const accessToken = response.data.data.accessToken;
-      const refreshToken = response.data.data.refreshToken;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      dispatch(setIsAuth(true));
-      dispatch(setToken(accessToken));
-      router.push("/dashboard");
-      return message.success(response.data.message);
+    try {
+      if (!(userData.password && userData.confirmpassword)) {
+        return message.warning("Please provide all required details");
+      }
+      if (userData.password !== userData.confirmpassword) {
+        return message.warning("Passwords do not match");
+      }
+
+      const queryToken = query.token;
+      const response = await _resetPassword({ userData, queryToken });
+
+      if (response?.error) {
+        return message.error(response.error.data.message);
+      }
+
+      if (response?.data) {
+        const accessToken = response.data.data.accessToken;
+        const refreshToken = response.data.data.refreshToken;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        dispatch(setIsAuth(true));
+        dispatch(setToken(accessToken));
+        router.push("/dashboard");
+        return message.success(response.data.message);
+      }
+    } catch (error) {
+      return message.error(
+        "An error occurred while processing your password reset request"
+      );
     }
   };
 

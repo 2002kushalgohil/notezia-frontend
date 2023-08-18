@@ -34,28 +34,37 @@ export default function Signup() {
 
   // -------------------- Signup Handler --------------------
   const [_signup, { isLoading }] = useSignUpMutation();
+
   const onSignupHandler = async () => {
-    if (!(userData.email && userData.password && userData.name)) {
-      return message.warning("Please fill all the details");
-    }
-    if (!validateEmail(userData.email)) {
-      return message.warning("Please enter an appropriate email address");
-    }
+    try {
+      if (!(userData.email && userData.password && userData.name)) {
+        return message.warning("Please provide all required details");
+      }
+      if (!validateEmail(userData.email)) {
+        return message.warning("Please enter an appropriate email address");
+      }
 
-    const response = await _signup(userData);
-    if (response?.error) {
-      return message.error(response.error.data.message);
-    }
+      const response = await _signup(userData);
 
-    if (response?.data) {
-      const accessToken = response.data.data.accessToken;
-      const refreshToken = response.data.data.refreshToken;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      dispatch(setIsAuth(true));
-      dispatch(setToken(accessToken));
-      route.push("/dashboard");
-      return message.success(response.data.message);
+      if (response?.error) {
+        return message.error(response.error.data.message);
+      }
+
+      if (response?.data) {
+        const accessToken = response.data.data.accessToken;
+        const refreshToken = response.data.data.refreshToken;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        dispatch(setIsAuth(true));
+        dispatch(setToken(accessToken));
+        route.push("/dashboard");
+        return message.success(response.data.message);
+      }
+    } catch (error) {
+      console.error("An error occurred during signup:", error);
+      return message.error(
+        "An error occurred while processing your signup request"
+      );
     }
   };
 

@@ -47,27 +47,34 @@ export default function Login() {
 
   // -------------------- Login Handler --------------------
   const [_login, { isLoading }] = useLoginMutation();
-  const onLoginHandler = async () => {
-    if (!(userData.email && userData.password)) {
-      return message.warning("Please fill all the details");
-    }
-    if (!validateEmail(userData.email)) {
-      return message.warning("Please enter an appropriate email address");
-    }
-    const response = await _login(userData);
-    if (response?.error) {
-      return message.error(response.error.data.message);
-    }
 
-    if (response?.data) {
-      const accessToken = response.data.data.accessToken;
-      const refreshToken = response.data.data.refreshToken;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      dispatch(setIsAuth(true));
-      dispatch(setToken(accessToken));
-      route.push("/dashboard");
-      return message.success(response.data.message);
+  const onLoginHandler = async () => {
+    try {
+      if (!(userData.email && userData.password)) {
+        return message.warning("Please fill all the details");
+      }
+      if (!validateEmail(userData.email)) {
+        return message.warning("Please enter an appropriate email address");
+      }
+
+      const response = await _login(userData);
+
+      if (response?.error) {
+        return message.error(response.error.data.message);
+      }
+
+      if (response?.data) {
+        const accessToken = response.data.data.accessToken;
+        const refreshToken = response.data.data.refreshToken;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        dispatch(setIsAuth(true));
+        dispatch(setToken(accessToken));
+        route.push("/dashboard");
+        return message.success(response.data.message);
+      }
+    } catch (error) {
+      return message.error("An error occurred while processing your request");
     }
   };
 
@@ -75,23 +82,30 @@ export default function Login() {
   const [_forgotPassword, { isLoading: forgotPasswordLoading }] =
     useForgotPasswordMutation();
   const onForgetPassHandler = async () => {
-    if (!forgotPasswordEmail) {
-      return message.warning("Please enter an a email address");
-    }
-    if (!validateEmail(forgotPasswordEmail)) {
-      return message.warning("Please enter an appropriate email address");
-    }
-    const response = await _forgotPassword({
-      email: forgotPasswordEmail,
-    });
+    try {
+      if (!forgotPasswordEmail) {
+        return message.warning("Please enter an email address");
+      }
+      if (!validateEmail(forgotPasswordEmail)) {
+        return message.warning("Please enter an appropriate email address");
+      }
 
-    if (response?.error) {
-      return message.error(response.error.data.message);
-    }
-    if (response?.data) {
-      setForgotPasswordEmail("");
-      setIsModal(false);
-      return message.success(response.data.message);
+      const response = await _forgotPassword({
+        email: forgotPasswordEmail,
+      });
+
+      if (response?.error) {
+        return message.error(response.error.data.message);
+      }
+      if (response?.data) {
+        setForgotPasswordEmail("");
+        setIsModal(false);
+        return message.success(response.data.message);
+      }
+    } catch (error) {
+      return message.error(
+        "An error occurred while processing your forgot password request"
+      );
     }
   };
 

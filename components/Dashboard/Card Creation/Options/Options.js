@@ -13,17 +13,24 @@ export default function Options({ changeModalStatus, _id }) {
   const [_deleteCard, { isLoading }] = useDeleteCardMutation();
 
   const deleteCardHandler = async () => {
-    const response = await _deleteCard(_id);
+    try {
+      const response = await _deleteCard(_id);
 
-    if (response?.error) {
-      message.error(response.error.data.message);
-    }
+      if (response?.error) {
+        message.error(response.error.data.message);
+      }
 
-    if (response?.data) {
-      message.success(response.data.message);
-    }
-    if (changeModalStatus) {
-      changeModalStatus(false);
+      if (response?.data) {
+        message.success(response.data.message);
+      }
+
+      if (changeModalStatus) {
+        changeModalStatus(false);
+      }
+    } catch (error) {
+      message.error(
+        "An error occurred while processing your card deletion request"
+      );
     }
   };
 

@@ -48,13 +48,19 @@ export default function NotesWorkflow() {
     useCardPrioritiesMutation();
 
   const changeCardPriorities = async () => {
-    const sentData = cards?.map((data) => {
-      return data._id;
-    });
+    try {
+      const sentData = cards?.map((data) => {
+        return data._id;
+      });
 
-    await _cardPriorities({
-      cards: [...sentData],
-    });
+      await _cardPriorities({
+        cards: [...sentData],
+      });
+    } catch (error) {
+      message.error(
+        "An error occurred while processing your card deletion request"
+      );
+    }
   };
 
   // ------------------ Edit card ------------------
@@ -62,15 +68,21 @@ export default function NotesWorkflow() {
     useUpdateCardMutation();
 
   const updateCard = async (_id, data) => {
-    const response = await _updateCard({ _id, data });
+    try {
+      const response = await _updateCard({ _id, data });
 
-    if (response?.error) {
-      return message.error(response.error.data.message);
-    }
+      if (response?.error) {
+        return message.error(response.error.data.message);
+      }
 
-    if (response?.data) {
-      dispatch(setCardData(cardInitialState));
-      return message.success(response.data.message);
+      if (response?.data) {
+        dispatch(setCardData(cardInitialState));
+        return message.success(response.data.message);
+      }
+    } catch (error) {
+      return message.error(
+        "An error occurred while processing your card update request"
+      );
     }
   };
 

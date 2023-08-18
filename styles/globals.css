@@ -82,7 +82,7 @@ a {
   padding-bottom: 5px !important;
 }
 
-.ant-modal-content {
+.cardModal .ant-modal-content {
   border-radius: var(--mpr-2) !important;
   padding: 0px !important;
 }

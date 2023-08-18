@@ -11,6 +11,7 @@ export default function CardModal({ open, changeModalStatus }) {
       closable={false}
       onOk={() => changeModalStatus(false)}
       onCancel={() => changeModalStatus(false)}
+      className="cardModal"
     >
       <CreateCard changeModalStatus={changeModalStatus} />
     </Modal>

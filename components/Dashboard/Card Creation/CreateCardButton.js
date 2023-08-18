@@ -26,15 +26,22 @@ export default function CreateCardButton() {
   // ------------------ Create card ------------------
   const [_createCard, { isLoading: createCardLoading }] =
     useCreateCardMutation();
+
   const createCardHandler = async () => {
-    const response = await _createCard(cardData);
+    try {
+      const response = await _createCard(cardData);
 
-    if (response?.error) {
-      return message.error(response.error.data.message);
-    }
+      if (response?.error) {
+        return message.error(response.error.data.message);
+      }
 
-    if (response?.data) {
-      return message.success(response.data.message);
+      if (response?.data) {
+        return message.success(response.data.message);
+      }
+    } catch (error) {
+      return message.error(
+        "An error occurred while processing your card creation request"
+      );
     }
   };
 
