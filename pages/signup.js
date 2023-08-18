@@ -20,7 +20,7 @@ export default function Signup() {
     name: "",
     email: "",
     Password: "",
-    isRemember: false,
+    isRemember: true,
   });
 
   // -------------------- onChange Handler for input fields --------------------

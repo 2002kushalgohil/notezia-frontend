@@ -33,7 +33,7 @@ export default function Login() {
   const [userData, setUserData] = useState({
     email: "",
     Password: "",
-    isRemember: false,
+    isRemember: true,
   });
 
   // -------------------- onChange Handler for input fields --------------------
@@ -66,8 +66,13 @@ export default function Login() {
       if (response?.data) {
         const accessToken = response.data.data.accessToken;
         const refreshToken = response.data.data.refreshToken;
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("refreshToken", refreshToken);
+        if (userData.isRemember) {
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
+        } else {
+          sessionStorage.setItem("accessToken", accessToken);
+          sessionStorage.setItem("refreshToken", refreshToken);
+        }
         dispatch(setIsAuth(true));
         dispatch(setToken(accessToken));
         route.push("/dashboard");
@@ -120,8 +125,13 @@ export default function Login() {
     if (googleAuthSuccess) {
       const accessToken = googleAuthData.data.accessToken;
       const refreshToken = googleAuthData.data.refreshToken;
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+      if (userData.isRemember) {
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+      } else {
+        sessionStorage.setItem("accessToken", accessToken);
+        sessionStorage.setItem("refreshToken", refreshToken);
+      }
       dispatch(setIsAuth(true));
       dispatch(setToken(accessToken));
       route.push("/dashboard");

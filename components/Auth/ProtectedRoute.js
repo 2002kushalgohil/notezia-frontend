@@ -15,7 +15,9 @@ export default function ProtectedRoute({ children }) {
 
   // -------------------- Is Authenticated checker --------------------
   const isAuthenticated = () => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken =
+      localStorage.getItem("accessToken") ||
+      sessionStorage.getItem("accessToken");
     if (!accessToken) {
       router.push("/login");
     }

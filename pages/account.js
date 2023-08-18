@@ -145,6 +145,21 @@ export default function Account() {
             />
           </Col>
         </Row>
+
+        <Row
+          style={{
+            width: "100%",
+          }}
+        >
+          <Col span={24}>
+            <Row justify="end" align="middle">
+              <Space size={15}>
+                <Skeleton.Button size="large" />
+                <Skeleton.Button size="large" />
+              </Space>
+            </Row>
+          </Col>
+        </Row>
       </>
     );
   };
@@ -162,9 +177,9 @@ export default function Account() {
             justifyContent: "space-between",
           }}
         >
-          {isLoading ? (
-            skeleton()
-          ) : (
+          {isLoading && skeleton()}
+
+          {!isLoading && (
             <>
               <Row
                 style={{
@@ -233,39 +248,38 @@ export default function Account() {
                   </Form>
                 </Col>
               </Row>
+              <Row
+                style={{
+                  width: "100%",
+                }}
+              >
+                <Col span={24}>
+                  <Row justify="end" align="middle">
+                    <Space size={15}>
+                      <Button
+                        size="large"
+                        onClick={() => {
+                          route.push("/dashboard");
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        size="large"
+                        onClick={onSubmitHandler}
+                        type="primary"
+                        loading={
+                          isLoading || updateProfileLoading || isImageLoading
+                        }
+                      >
+                        Save
+                      </Button>
+                    </Space>
+                  </Row>
+                </Col>
+              </Row>
             </>
           )}
-
-          <Row
-            style={{
-              width: "100%",
-            }}
-          >
-            <Col span={24}>
-              <Row justify="end" align="middle">
-                <Space size={15}>
-                  <Button
-                    size="large"
-                    onClick={() => {
-                      route.push("/dashboard");
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    size="large"
-                    onClick={onSubmitHandler}
-                    type="primary"
-                    loading={
-                      isLoading || updateProfileLoading || isImageLoading
-                    }
-                  >
-                    Save
-                  </Button>
-                </Space>
-              </Row>
-            </Col>
-          </Row>
         </div>
       </CardLayout>
     </ProtectedRoute>

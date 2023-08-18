@@ -3,7 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_API_NAME,
   prepareHeaders: (headers) => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken =
+      localStorage.getItem("accessToken") ||
+      sessionStorage.getItem("accessToken");
     if (accessToken) {
       headers.set("Authorization", `Bearer ${accessToken}`);
     }
@@ -15,7 +17,9 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result?.error?.status === 401) {
-    const oldRefreshToken = localStorage.getItem("refreshToken");
+    const oldRefreshToken =
+      localStorage.getItem("refreshToken") ||
+      sessionStorage.getItem("refreshToken");
     const refreshResult = await baseQuery(
       `/user/refreshtoken?refreshToken=${oldRefreshToken}`,
       api,
@@ -31,6 +35,8 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     } else {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.removeItem("refreshToken");
       window.location.href = "/login";
     }
   }
